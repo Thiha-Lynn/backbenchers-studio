@@ -143,7 +143,7 @@ public static class StudioBuilder
     public static void OptimizeWeb()
     {
         var target=NamedBuildTarget.WebGL;
-        PlayerSettings.companyName="Backbenchers Studio";PlayerSettings.productName="Backbenchers Studio";PlayerSettings.bundleVersion="1.2.0";
+        PlayerSettings.companyName="Backbenchers Studio";PlayerSettings.productName="Backbenchers Studio";PlayerSettings.bundleVersion="1.3.0";
         PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL,false);PlayerSettings.SetGraphicsAPIs(BuildTarget.WebGL,new[]{GraphicsDeviceType.WebGPU,GraphicsDeviceType.OpenGLES3});
         PlayerSettings.WebGL.compressionFormat=WebGLCompressionFormat.Brotli;
         // GitHub Pages cannot configure Unity's Content-Encoding headers.

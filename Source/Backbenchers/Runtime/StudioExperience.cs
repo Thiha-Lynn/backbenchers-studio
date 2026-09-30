@@ -21,6 +21,9 @@ namespace Backbenchers
         private Vector3? destination;
         private Quaternion destinationRotation;
         private StudioDevice[] devices;
+        private Vector3? explorePosition;
+        private Quaternion exploreRotation;
+
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")] private static extern void BBStudioReady(string renderer);
         [DllImport("__Internal")] private static extern void BBStudioView(int index);
@@ -138,6 +141,33 @@ namespace Backbenchers
 #endif
                 return;
             }
+        }
+        public void FocusDevice(string value)
+        {
+            bool instant=value.StartsWith("instant:");var id=instant?value.Substring(8):value;
+            if(!explorePosition.HasValue){explorePosition=viewCamera.transform.position;exploreRotation=viewCamera.transform.rotation;}
+            movement=Vector2.zero;paused=false;
+            foreach(var d in devices)if(d.deviceId==id){
+                var target=d.screenRenderer.bounds.center;
+                Vector3 p;
+                if(id=="thomas"){p=new Vector3(13.82f,1.42f,6.2f);target=new Vector3(13.85f,1.05f,7.45f);}
+                else if(id=="hlaing"){p=new Vector3(14.1f,1.42f,9.1f);target=new Vector3(14.03f,1.05f,7.8f);}
+                else if(id=="merlin"){p=new Vector3(15.98f,1.42f,7.5f);target=new Vector3(17.45f,1.05f,7.5f);}
+                else {var direction=viewCamera.transform.position-target;direction.y=0;p=target+direction.normalized*.9f+Vector3.up*.65f;}
+                destination=p;destinationRotation=Quaternion.LookRotation(target-p);
+                if(instant){body.enabled=false;viewCamera.transform.SetPositionAndRotation(p,destinationRotation);body.enabled=true;destination=null;}
+                lastInteraction=Time.unscaledTime;return;
+            }
+        }
+        public void LeaveDevice(string unused)
+        {
+            if(!explorePosition.HasValue)return;
+            destination=explorePosition.Value;destinationRotation=exploreRotation;explorePosition=null;paused=false;lastInteraction=Time.unscaledTime;
+        }
+        public void ScreenPreview(string value)
+        {
+            var split=value.IndexOf('|');if(split<1||value.Length>250000)return;
+            var id=value.Substring(0,split);foreach(var d in devices)if(d.deviceId==id){d.SetDesktop(value.Substring(split+1));return;}
         }
         public void DeviceAction(string value)
         {

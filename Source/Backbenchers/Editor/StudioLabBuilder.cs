@@ -25,6 +25,18 @@ public static class StudioLabBuilder {
   var bounds=Bounds(g);g.transform.localScale*=width/Mathf.Max(bounds.size.x,bounds.size.y,bounds.size.z);bounds=Bounds(g);g.transform.position+=floor-new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);
   var mat=AssetDatabase.LoadAssetAtPath<Material>(Root+"/ResearchModels/"+matPath);
   foreach(var r in g.GetComponentsInChildren<Renderer>()){r.sharedMaterials=Enumerable.Repeat(mat,r.sharedMaterials.Length).ToArray();r.gameObject.isStatic=true;if(name.Contains("Racer")&&(r.name=="lights"||r.name=="displaylight"))r.sharedMaterial=AssetDatabase.LoadAssetAtPath<Material>(Root+"/ResearchModels/Racer/Materials/RacerLights.mat");if(name.Contains("Glock")&&r.name=="Triggers2")r.gameObject.SetActive(false);}
+  if(name.Contains("FPVStrike")){
+   if(!AssetDatabase.IsValidFolder(Root+"/DisplayMeshes"))AssetDatabase.CreateFolder(Root,"DisplayMeshes");
+   foreach(var skin in g.GetComponentsInChildren<SkinnedMeshRenderer>()){
+    if(skin.name.EndsWith("Bomb_02")){skin.gameObject.SetActive(false);continue;}
+    var mesh=new Mesh();skin.BakeMesh(mesh);mesh.name="Display "+skin.name;
+    var meshPath=Root+"/DisplayMeshes/"+skin.name+".asset";var saved=AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
+    if(saved){EditorUtility.CopySerialized(mesh,saved);UnityEngine.Object.DestroyImmediate(mesh);mesh=saved;}else AssetDatabase.CreateAsset(mesh,meshPath);
+    var materials=skin.sharedMaterials;var target=skin.gameObject;UnityEngine.Object.DestroyImmediate(skin);
+    target.AddComponent<MeshFilter>().sharedMesh=mesh;target.AddComponent<MeshRenderer>().sharedMaterials=materials;target.isStatic=true;
+   }
+  }
+  if(name.Contains("FPVStrike")){bounds=Bounds(g);g.transform.localScale*=width/Mathf.Max(bounds.size.x,bounds.size.y,bounds.size.z);bounds=Bounds(g);g.transform.position+=floor-new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);}
   if(topic!=null){var c=g.AddComponent<BoxCollider>();bounds=Bounds(g);c.center=g.transform.InverseTransformPoint(bounds.center);c.size=g.transform.InverseTransformVector(bounds.size);c.size=new Vector3(Mathf.Abs(c.size.x),Mathf.Abs(c.size.y),Mathf.Abs(c.size.z));g.AddComponent<StudioInspectable>().topic=topic;}
   return g;
  }
@@ -43,6 +55,9 @@ public static class StudioLabBuilder {
    var m=AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid));var tex=m.GetTexture("_MainTex");m.shader=Shader.Find("Standard");m.mainTexture=tex;m.SetFloat("_Glossiness",.32f);m.color=Color.white;EditorUtility.SetDirty(m);
   }
   var glock=AssetDatabase.LoadAssetAtPath<Material>(Root+"/ResearchModels/Glock/Model/Materials/Glock.mat");glock.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/ResearchModels/Glock/Textures/albedo.png");glock.SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/ResearchModels/Glock/Textures/pistol_normal.bmp"));glock.EnableKeyword("_NORMALMAP");
+  var fpv=AssetDatabase.LoadAssetAtPath<Material>(Root+"/ResearchModels/FPVStrike/Materials/Military_Drone_02_01.mat");
+  fpv.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/ResearchModels/FPVStrike/Textures/Military_Drone_02/Military_Drone_02_Albedo_01.png");
+  fpv.SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/ResearchModels/FPVStrike/Textures/Military_Drone_02/Military_Drone_02_Normals.png"));fpv.EnableKeyword("_NORMALMAP");EditorUtility.SetDirty(fpv);
   AssetDatabase.SaveAssets();
  }
  [MenuItem("Backbenchers/Rebuild research studio")]
@@ -51,9 +66,7 @@ public static class StudioLabBuilder {
   foreach(var n in new[]{"Small studio plaque","Original studio identity"}){var g=GameObject.Find(n);if(g)UnityEngine.Object.DestroyImmediate(g);}
   var paper=Mat("Lab warm ivory","#f4eedf");var black=Mat("Lab charcoal","#252930");var red=Mat("Lab signal red","#ed3b39");var oak=AssetDatabase.LoadAssetAtPath<Material>(Root+"/Materials/Natural oak frames.mat");
   // Clearly visible original identity on the wall above the rear shelving.
-  Cube("Backbenchers oak sign surround",new Vector3(11.49f,2.07f,7.67f),new Vector3(.055f,.60f,1.95f),oak);
-  Cube("Backbenchers ivory sign face",new Vector3(11.526f,2.07f,7.67f),new Vector3(.025f,.55f,1.90f),paper);
-  var logo=AssetDatabase.LoadAssetAtPath<Material>(Root+"/Materials/Small original identity.mat");Face("Backbenchers logo board",new Vector3(11.542f,2.07f,7.67f),new Vector2(1.67f,.47f),Vector3.right,logo);
+  var logo=AssetDatabase.LoadAssetAtPath<Material>(Root+"/Materials/Small original identity.mat");Face("Backbenchers logo board",new Vector3(11.49f,2.07f,7.67f),new Vector2(1.85f,.52f),Vector3.right,logo);
   Cube("Jolly Roger oak frame",new Vector3(17.66f,1.97f,7.45f),new Vector3(.04f,.8f,.8f),oak);
   var jolly=Face("Framed Backbenchers Jolly Roger",new Vector3(17.635f,1.97f,7.45f),new Vector2(.74f,.74f),Vector3.left,Mat("Original Jolly Roger","#ffffff",Tex("backbenchers-jolly-roger.jpg")));
   jolly.AddComponent<BoxCollider>().size=new Vector3(1,1,.035f);jolly.AddComponent<StudioInspectable>().topic="identity";
@@ -71,6 +84,8 @@ public static class StudioLabBuilder {
   Model("Phantom/Meshes/Phantom.FBX","EGUnion Phantom research model",new Vector3(17.18f,.80f,8.04f),.48f,new Vector3(0,-15,0),"Phantom/Materials/Phantom.mat","drones");
   Cube("Game art sample tray",new Vector3(13.3f,.80f,8.16f),new Vector3(.38f,.025f,.28f),black);
   Model("Glock/Model/Pistol.fbx","EGUnion Glock game-art model",new Vector3(13.3f,.82f,8.16f),.29f,new Vector3(90,0,20),"Glock/Model/Materials/Glock.mat","game-art");
+  Cube("FPV game art shelf",new Vector3(17.30f,1.57f,6.37f),new Vector3(.64f,.035f,.56f),oak);
+  Model("FPVStrike/Mesh/Military_Drone_02.FBX","EGUnion FPVStrike display",new Vector3(17.29f,1.59f,6.37f),.46f,new Vector3(0,35,0),"FPVStrike/Materials/Military_Drone_02_01.mat","fpv-art");
   // A third seat and monitor make the research desk usable.
   var chair=UnityEngine.Object.Instantiate(GameObject.Find("Chair"));chair.name="Merlin research chair";chair.transform.position=new Vector3(16.5f,.47f,7.45f);chair.transform.eulerAngles=new Vector3(0,190,0);
   var monitor=UnityEngine.Object.Instantiate(GameObject.Find("Monitor (1)"));monitor.name="Merlin research monitor";monitor.transform.position=new Vector3(17.48f,1f,7.53f);monitor.transform.eulerAngles=new Vector3(0,270,0);
@@ -89,9 +104,7 @@ public static class StudioLabBuilder {
   Cube("Thomas notebook",new Vector3(14.40f,.80f,7.1f),new Vector3(.16f,.018f,.22f),red);
   var cup=GameObject.Find("Cup");if(cup)cup.transform.position=new Vector3(13.60f,.87f,8.35f);
   var magazine=GameObject.Find("Magazine");if(magazine)magazine.transform.position=new Vector3(14.38f,.83f,8.20f);
-  // Small physical desk nameplates, rather than room-sized text.
-  string[] names={"THOMAS / BUILD","HLAING / CREATE","MERLIN / RESEARCH"};Vector3[] plates={new Vector3(13.33f,.86f,7.12f),new Vector3(14.52f,.86f,8.0f),new Vector3(17.15f,.86f,8.3f)};
-  for(int i=0;i<3;i++){var rot=Quaternion.Euler(0,i==0?0:i==1?180:90,0);var plaque=Cube(names[i]+" plaque",plates[i],new Vector3(.30f,.075f,.035f),paper);plaque.transform.rotation=rot;Label(names[i],names[i],plates[i]+rot*Vector3.back*.02f,rot,.005f,C("#30343b"));}
+  // Crew identity lives on the screens and gallery; desks stay clear.
   var e=UnityEngine.Object.FindFirstObjectByType<StudioExperience>();e.viewpoints=new[]{new Vector3(16.45f,1.55f,6.65f),new Vector3(15.2f,1.55f,6.35f),new Vector3(15.45f,1.55f,8f),new Vector3(15.8f,1.55f,6.75f)};e.viewAngles=new[]{new Vector3(2,300,0),new Vector3(9,314,0),new Vector3(1,336,0),new Vector3(8,64,0)};
   QualitySettings.pixelLightCount=2;
   foreach(var r in UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))if(!r.GetComponent<TextMesh>()){r.gameObject.isStatic=true;r.receiveGI=ReceiveGI.Lightmaps;r.scaleInLightmap=r.bounds.size.magnitude<.6f?.4f:1;}
