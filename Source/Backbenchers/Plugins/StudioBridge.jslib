@@ -1,4 +1,10 @@
 mergeInto(LibraryManager.library, {
+  BBStudioPerformance: function(fps) {
+    window.dispatchEvent(new CustomEvent('backbenchers-performance', {detail:{fps:fps}}));
+  },
+  BBStudioSeat: function(x,y,width,height) {
+    window.dispatchEvent(new CustomEvent('backbenchers-seat', {detail:{x:x,y:y,width:width,height:height}}));
+  },
   BBStudioReady: function(renderer) {
     var detail = { renderer: UTF8ToString(renderer) };
     window.dispatchEvent(new CustomEvent('backbenchers-ready', { detail: detail }));

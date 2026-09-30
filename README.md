@@ -7,11 +7,25 @@ An interactive Unity studio visit by Thomas D. Lynn. The welcome page and projec
 - Touch movement controls and a light quality preset support smaller screens.
 - Selected work, crew posters, profile, and portfolio links remain available without starting Unity.
 
+## Reading room and motion update · 1.4
+
+Exploration now follows display cadence, with time-based acceleration and damped turning. Auto quality adjusts render resolution from Unity frame samples; it targets 60 fps without assuming every GPU or browser can sustain it. Background pages and non-scene dialogs throttle rendering. Touch devices use a left-thumb movement stick and independent drag-to-look, and Comfort settings expose sensitivity and reduced motion.
+
+Seating moves the camera to each device's actual screen. The curved monitor geometry is larger, and the HTML workspace follows its projected bounds on desktop and landscape tablets. Small screens use a readable focus view. Stand up restores the previous room position. Local and remote screen previews only encode while the computer is in use; the last preview remains on the physical monitor afterward.
+
+Merlin's original procedural Mac mini study has a rounded metal shell, recessed base, ports and cable routing. The Phantom, keyboard, computer and research mat have separate worktop zones. Original Demo shelf footprints now hold upright books and low stacks, with each of the 24 titles placed exactly once. A faceless graphite portrait occupies an existing desk frame. A new interactive phone uses the actual EGUnion Android launcher artwork; its lightweight handset geometry is original because no handset mesh was found in the local EGUnion project. Twenty-four distinct sourced titles include nine verified Khet Zaw books, Kyar Pauk, memoir, poetry and Spring Revolution writing; this is a selected collection, not a claim of an exhaustive bibliography. Open **Books** or tap a physical book for cover details and sources. See [cover provenance](assets/books/SOURCES.md).
+
+To reproduce the additive scene upgrade, copy `assets/books` image files into `Assets/Backbenchers/Books`, copy the studio screen JPGs, `aung-san-suu-kyi-pencil.png`, and `egunion-phone-screen.png` into `Assets/Backbenchers/Brand`, and copy the authored scripts from `Source/Backbenchers`. Run **Upgrade reading room and workstations**, then build Web. It preserves the original room, is repeatable, and is also called by **Rebuild research studio**. The procedural meshes are generated locally under `DisplayMeshes`. Rebake warm studio lighting after changing book or desk placement, save the scene, then build.
+
+## Release 1.4 validation
+
+The final Unity Web build completed with zero errors. Browser checks covered all seven devices (power off/on, seat, stand up), screen alignment at 1280 × 800, rotation to 820 × 1180, and a 375 px mobile layout with no horizontal overflow. The library contains 24 unique titles and links to full-size covers. The local Python terminal returned 42 for `print(6 * 7)`. Desktop exploration reported around 60 fps on this machine. Touch layouts were checked in browser emulation; real multitouch gestures and physical iOS/Android performance still require device testing.
+
 ## Interactive desktop update
 
 Version 1.3 removes the large desk nameplates and the logo board surround, leaving the original Backbenchers mark directly on the wall. An FPVStrike static model display uses the Military_Drone_02 airframe referenced by EGUnion's FPVStrike prefab. Its visible mesh is baked into a static display for lighting and runtime efficiency; no gameplay or flight systems are imported.
 
-Every device opens a curved monitor interface while the real room remains visible. **Ubuntu** connects to a password-protected Ubuntu 24.04 LTS desktop on the studio's existing server. It uses lightweight Xfce and Ubuntu Yaru styling, with a real Bash shell, Python, Node.js, Git, browser, editor, and persistent Linux files. It is one shared crew workstation; the three monitors do not create separate accounts or sessions. Screen power controls the display, not the server. Closing the monitor returns to the room and keeps the screen preview updating at one frame per second.
+Every device opens a curved monitor interface while the real room remains visible. **Ubuntu** connects to a password-protected Ubuntu 24.04 LTS desktop on the studio's existing server. It uses lightweight Xfce and Ubuntu Yaru styling, with a real Bash shell, Python, Node.js, Git, browser, editor, and persistent Linux files. It is one shared crew workstation; the three monitors do not create separate accounts or sessions. Screen power controls the display, not the server. Closing the monitor returns to the room and retains the most recent preview without background image encoding.
 
 Public visitors can also use the separate **local** Files, Editor, and Terminal apps without server credentials. These run supported file commands, quoted arguments, redirection, text pipelines, and real Python through [Pyodide](https://pyodide.org/en/stable/usage/webworker.html) 314.0.7, loaded lazily from jsDelivr. The local workspace is not Ubuntu: native binaries and apt are available only in the authenticated Ubuntu desktop. Completed local text files persist in browser storage (2 MB total, 500 KB per file); clearing browser storage removes them. Download exports a file. Stop terminates a long-running worker and restores the last completed snapshot.
 
@@ -27,7 +41,7 @@ Six devices (three monitors, two tablets, and a phone) support power toggling, s
 
 ## Warm studio update
 
-The room retains the original Demo furniture and prop placement, wood finishes, and red lamps. Three small oak-framed bounty posters occupy the original three-picture gallery footprint; the Backbenchers identity is now displayed above the rear bookcase. Static lighting is baked with soft pendant light and cool window fill, using the Demo sun direction. Realtime shadows are disabled, with one or two per-pixel lights reserved for device glow; rendering slows while idle or behind a dialog.
+The room retains the original Demo furniture and prop placement, wood finishes, and red lamps. Three small oak-framed bounty posters occupy the original three-picture gallery footprint; the Backbenchers identity is now displayed above the rear bookcase. Static lighting is baked with soft pendant light and cool window fill, using the Demo sun direction. Realtime shadows are disabled, with one or two per-pixel lights reserved for device glow; rendering slows while the page is hidden or behind a non-scene dialog.
 
 Original bounty artwork links back to [Thomas D. Lynn](https://thomasdlynn.dev), [Hlaing Gyi](https://mfu-hlaing.github.io/), and [Trafalgar D. Merlin](https://afk-merlin.github.io/). Open Graph and Twitter metadata reference a dedicated 1200 × 630 social preview. Its HTML source is `social-preview.html`.
 

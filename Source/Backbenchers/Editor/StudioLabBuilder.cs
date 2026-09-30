@@ -108,6 +108,6 @@ public static class StudioLabBuilder {
   var e=UnityEngine.Object.FindFirstObjectByType<StudioExperience>();e.viewpoints=new[]{new Vector3(16.45f,1.55f,6.65f),new Vector3(15.2f,1.55f,6.35f),new Vector3(15.45f,1.55f,8f),new Vector3(15.8f,1.55f,6.75f)};e.viewAngles=new[]{new Vector3(2,300,0),new Vector3(9,314,0),new Vector3(1,336,0),new Vector3(8,64,0)};
   QualitySettings.pixelLightCount=2;
   foreach(var r in UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))if(!r.GetComponent<TextMesh>()){r.gameObject.isStatic=true;r.receiveGI=ReceiveGI.Lightmaps;r.scaleInLightmap=r.bounds.size.magnitude<.6f?.4f:1;}
-  EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Debug.Log("Research studio ready: two EGUnion drones, Glock art study, six interactive devices, three crew workstations.");
+  StudioPolishBuilder.Upgrade();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();Debug.Log("Research studio ready: two EGUnion drones, Glock art study, six interactive devices, three crew workstations.");
  }
 }
