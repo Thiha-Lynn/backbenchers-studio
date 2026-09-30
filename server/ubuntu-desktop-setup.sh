@@ -49,6 +49,7 @@ After=network.target
 Type=simple
 User=studio
 Group=studio
+PAMName=login
 Environment=HOME=/home/studio
 WorkingDirectory=/home/studio
 ExecStart=/usr/bin/tigervncserver :1 -fg -localhost yes -geometry 1280x720 -depth 24 -SecurityTypes VncAuth -PasswordFile /home/studio/.vnc/passwd -xstartup /home/studio/.vnc/xstartup
@@ -72,3 +73,24 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
+
+# Headless browser keeps its sandbox; use software compositing without a GPU.
+cat > /usr/local/bin/studio-browser <<'SCRIPT'
+#!/bin/sh
+export LIBGL_ALWAYS_SOFTWARE=1
+export WEBKIT_DISABLE_COMPOSITING_MODE=1
+exec /usr/bin/epiphany "$@"
+SCRIPT
+chmod 755 /usr/local/bin/studio-browser
+mkdir -p /home/studio/.local/share/applications
+cat > /home/studio/.local/share/applications/studio-browser.desktop <<'DESKTOP'
+[Desktop Entry]
+Name=Studio Web Browser
+Exec=/usr/local/bin/studio-browser %U
+Type=Application
+Icon=org.gnome.Epiphany
+Categories=Network;WebBrowser;
+MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
+DESKTOP
+chown -R studio:studio /home/studio/.local
+runuser -u studio -- xdg-settings set default-web-browser studio-browser.desktop
