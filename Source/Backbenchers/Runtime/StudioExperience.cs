@@ -20,15 +20,19 @@ namespace Backbenchers
         private float lastInteraction;
         private Vector3? destination;
         private Quaternion destinationRotation;
+        private StudioDevice[] devices;
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")] private static extern void BBStudioReady(string renderer);
         [DllImport("__Internal")] private static extern void BBStudioView(int index);
+        [DllImport("__Internal")] private static extern void BBStudioDevice(string id,int power,int page);
+        [DllImport("__Internal")] private static extern void BBStudioInspect(string topic);
 #endif
         void Start()
         {
             Application.targetFrameRate = -1;
             QualitySettings.vSyncCount = 0;
             body = viewCamera.GetComponent<CharacterController>();
+            devices=UnityEngine.Object.FindObjectsByType<StudioDevice>(FindObjectsSortMode.None);
             yaw = viewCamera.transform.eulerAngles.y;
             pitch = viewCamera.transform.eulerAngles.x;
             if(pitch > 180) pitch -= 360;
@@ -77,11 +81,12 @@ namespace Backbenchers
         {
             var parts=value.Split(',');
             if(parts.Length==2 && float.TryParse(parts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out var x) && float.TryParse(parts[1],NumberStyles.Float,CultureInfo.InvariantCulture,out var y))
-                movement=Vector2.ClampMagnitude(new Vector2(x,y),1);
+                {movement=Vector2.ClampMagnitude(new Vector2(x,y),1);if(movement.sqrMagnitude>0&&destination.HasValue){destination=null;body.enabled=true;yaw=viewCamera.transform.eulerAngles.y;pitch=viewCamera.transform.eulerAngles.x;}}
         }
         public void Look(string value)
         {
-            if(paused || destination.HasValue)return;
+            if(paused)return;
+            if(destination.HasValue){destination=null;body.enabled=true;yaw=viewCamera.transform.eulerAngles.y;pitch=viewCamera.transform.eulerAngles.x;if(pitch>180)pitch-=360;}
             var parts=value.Split(',');
             if(parts.Length!=2 || !float.TryParse(parts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out var x) || !float.TryParse(parts[1],NumberStyles.Float,CultureInfo.InvariantCulture,out var y))return;
             lastInteraction=Time.unscaledTime;
@@ -106,9 +111,38 @@ namespace Backbenchers
             bool low=value=="low";
             QualitySettings.shadows=ShadowQuality.Disable;
             QualitySettings.shadowDistance=low?0:18;
-            QualitySettings.pixelLightCount=0;
+            QualitySettings.pixelLightCount=low?1:2;
             QualitySettings.antiAliasing=low?2:4;
             OnDemandRendering.renderFrameInterval=1;
+        }
+        public void Interact(string coordinates)
+        {
+            if(paused)return;
+            var p=coordinates.Split(',');
+            if(p.Length!=2||!float.TryParse(p[0],NumberStyles.Float,CultureInfo.InvariantCulture,out float x)||!float.TryParse(p[1],NumberStyles.Float,CultureInfo.InvariantCulture,out float y))return;
+            var ray=viewCamera.ViewportPointToRay(new Vector3(x,1-y,0));
+            if(!Physics.Raycast(ray,out var hit,6f))return;
+            var device=hit.collider.GetComponentInParent<StudioDevice>();
+            if(device){SelectDevice(device.deviceId);return;}
+            var item=hit.collider.GetComponentInParent<StudioInspectable>();
+#if UNITY_WEBGL && !UNITY_EDITOR
+            if(item)BBStudioInspect(item.topic);
+#endif
+        }
+        public void SelectDevice(string id)
+        {
+            if(devices==null)return;
+            foreach(var d in devices)if(d.deviceId==id){
+#if UNITY_WEBGL && !UNITY_EDITOR
+                BBStudioDevice(d.deviceId,d.powered?1:0,d.page);
+#endif
+                return;
+            }
+        }
+        public void DeviceAction(string value)
+        {
+            var parts=value.Split(':');if(parts.Length!=2||devices==null)return;
+            foreach(var d in devices)if(d.deviceId==parts[0]){if(parts[1]=="power")d.Toggle();else if(parts[1]=="page")d.Next();SelectDevice(d.deviceId);lastInteraction=Time.unscaledTime;return;}
         }
         void OnApplicationFocus(bool focus){if(!focus)movement=Vector2.zero;}
     }

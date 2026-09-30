@@ -1,6 +1,6 @@
 {
-  "loader": "Build/studio-66b093c8002a.loader.js",
-  "data": "Build/studio-dcee2d094b1c.data.unityweb",
-  "framework": "Build/studio-892a60902a4b.framework.js.unityweb",
-  "wasm": "Build/studio-cc8552656706.wasm.unityweb"
+  "loader": "Build/studio-351a05a07880.loader.js",
+  "data": "Build/studio-5223438dee6e.data.unityweb",
+  "framework": "Build/studio-904a6a1a0454.framework.js.unityweb",
+  "wasm": "Build/studio-e17cdcbdc055.wasm.unityweb"
 }

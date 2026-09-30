@@ -143,7 +143,7 @@ public static class StudioBuilder
     public static void OptimizeWeb()
     {
         var target=NamedBuildTarget.WebGL;
-        PlayerSettings.companyName="Backbenchers Studio";PlayerSettings.productName="Backbenchers Studio";PlayerSettings.bundleVersion="1.1.0";
+        PlayerSettings.companyName="Backbenchers Studio";PlayerSettings.productName="Backbenchers Studio";PlayerSettings.bundleVersion="1.2.0";
         PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL,false);PlayerSettings.SetGraphicsAPIs(BuildTarget.WebGL,new[]{GraphicsDeviceType.WebGPU,GraphicsDeviceType.OpenGLES3});
         PlayerSettings.WebGL.compressionFormat=WebGLCompressionFormat.Brotli;
         // GitHub Pages cannot configure Unity's Content-Encoding headers.
@@ -156,9 +156,9 @@ public static class StudioBuilder
         PlayerSettings.SetManagedStrippingLevel(target,ManagedStrippingLevel.High);PlayerSettings.SetIl2CppCodeGeneration(target,Il2CppCodeGeneration.OptimizeSize);
         UnityEditor.WebGL.UserBuildSettings.codeOptimization=UnityEditor.WebGL.WasmCodeOptimization.DiskSizeLTO;
         PlayerSettings.runInBackground=false;PlayerSettings.defaultWebScreenWidth=1280;PlayerSettings.defaultWebScreenHeight=720;
-        foreach(string guid in AssetDatabase.FindAssets("t:Texture2D",new[]{"Assets/Design Studio",Root+"/Brand"})){
+        foreach(string guid in AssetDatabase.FindAssets("t:Texture2D",new[]{"Assets/Design Studio",Root+"/Brand",Root+"/ResearchModels"})){
             string path=AssetDatabase.GUIDToAssetPath(guid);var importer=AssetImporter.GetAtPath(path) as TextureImporter;if(importer==null)continue;
-            importer.isReadable=false;var settings=importer.GetPlatformTextureSettings("WebGL");settings.overridden=true;settings.maxTextureSize=path.Contains("logo")||path.Contains("bounty")||path.Contains("studio-screen")?1024:512;settings.format=TextureImporterFormat.DXT5;settings.compressionQuality=60;importer.SetPlatformTextureSettings(settings);importer.SaveAndReimport();
+            importer.isReadable=false;var settings=importer.GetPlatformTextureSettings("WebGL");settings.overridden=true;settings.maxTextureSize=path.Contains("ResearchModels")||path.Contains("jolly")||path.Contains("logo")||path.Contains("bounty")||path.Contains("studio-screen")?1024:512;settings.format=TextureImporterFormat.DXT5;settings.compressionQuality=60;importer.SetPlatformTextureSettings(settings);importer.SaveAndReimport();
         }
         AssetDatabase.SaveAssets();Debug.Log("Web settings applied: WebGPU with WebGL2 fallback; Brotli with Pages decompression fallback; 128MB initial heap; textures capped for web.");
     }
