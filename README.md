@@ -1,3 +1,12 @@
+## Studio tour 1.6
+
+- Contextual game-style prompts for 144 authored display and everyday objects, plus seven working devices. Hover or aim, then tap/click or press E. Only the object under the pointer is labeled. Structural walls and floor remain scenery.
+- Immersive in-room inspection with preserved return position, close/far controls, and controlled left/right views for solid objects. The three bounty posters have individual camera framing, next/previous navigation, and portfolio links. An Objects menu provides keyboard/touch access to the main collection.
+- Auto details starts with a sharper, pixel-budgeted image and adapts from Unity’s measured frame pacing with smoothing and cooldowns. It does not promise a fixed frame rate on every device. Light and Detailed remain available.
+- StPageFlip paper folds, front/back page surfaces, book-sized sheets, measured text pagination without inner text scrollbars, Myanmar serif type, a distraction-free reading mode, and bounded nearby PDF-page rendering. Full archival Myanmar fiction: မောင်ရင်မောင် မမယ်မ by James Hla Kyaw, 211 scan leaves, loaded only when selected. Source/edition notes are in `assets/books/SOURCES.md`.
+
+The reading-room builder now runs **Apply object interactions** automatically; it can also be run independently before exporting Web. This adds colliders and metadata without moving furniture or invalidating the lighting bake.
+
 # Backbenchers Studio
 
 An interactive Unity studio visit by Thomas D. Lynn. The welcome page and project stories load before the 3D engine; choose **Step inside** to explore.
@@ -6,6 +15,10 @@ An interactive Unity studio visit by Thomas D. Lynn. The welcome page and projec
 - Five compact camera controls provide a guided visit: room, desk, crew, drone lab, and reading shelf.
 - Touch movement controls and a light quality preset support smaller screens.
 - Selected work, crew posters, profile, and portfolio links remain available without starting Unity.
+
+## Release 1.6 validation
+
+Unity Web build succeeded. All four output hashes match `unity/build.json`. Browser checks covered the in-scene book prompt and E-key handler, book pickup/return, individual bounty navigation and all three portfolio destinations, Mac mini and drone inspection, viewing-angle controls, return to room, and the EGUnion phone workspace. The actual 211-page archival PDF rendered and turned in desktop and narrow layouts; a physical corner fold was visually checked. Text pagination at 320 px had no horizontal overflow or clipped page copy; reading controls retain 44 px touch targets. The final poster framing was corrected after a screenshot revealed overlap with its information panel. No browser runtime errors were reported in the checked flows. The room reported about 58–60 fps on this laptop. Physical mobile hardware and real multitouch remain unverified; adaptive detail is not an all-device frame-rate guarantee.
 
 ## A working shelf, a reading desk · 1.5
 
@@ -17,7 +30,7 @@ A quiet original 72 BPM lo-fi sketch starts after **Step inside**. It is synthes
 
 `StudioGalleryBuilder.Apply` runs at the end of the repeatable workstation upgrade. Copy `studio-nature-triptych.png` and `apple-logo.png` into the Unity Brand folder along with the 1.4 assets. Rebuild, rebake lighting, save, and export as before. Original publisher covers are retained; the nature artwork was generated with the built-in image tool, with its full prompt saved under `assets`.
 
-The reading interactions were inspired by [md2book](https://github.com/thixpin/md2book); this reader is an original implementation, not a bundle of that package. PDF.js 6.3.289 is from Mozilla's official `pdfjs-dist` npm package under Apache-2.0. Its license and font/CMap/wasm notices are preserved in `desktop/pdfjs`.
+The reading interactions were inspired by [md2book](https://github.com/thixpin/md2book); the reading UI is custom and does not bundle that package. Version 1.6 uses StPageFlip 2.0.7 (MIT) for physical paper folds; see `desktop/pageflip/README.md` for its small lifecycle and PDF-canvas fixes. PDF.js 6.3.289 is from Mozilla's official `pdfjs-dist` npm package under Apache-2.0. Its license and font/CMap/wasm notices are preserved in `desktop/pdfjs`.
 
 ## Release 1.5 validation
 

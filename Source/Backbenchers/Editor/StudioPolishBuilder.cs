@@ -160,7 +160,8 @@ public static class StudioPolishBuilder {
    var mesh=filter.sharedMesh;if(mesh && mesh.uv2.Length==0 && AssetDatabase.GetAssetPath(mesh).StartsWith(Root+"/DisplayMeshes/")){Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);}
   }
   StudioGalleryBuilder.Apply(Titles);
-  PlayerSettings.bundleVersion="1.5.0";
+  StudioInteractionBuilder.Apply();
+  PlayerSettings.bundleVersion="1.6.0";
   EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());EditorSceneManager.SaveOpenScenes();AssetDatabase.SaveAssets();Debug.Log("Reading room upgraded: 24 distinct catalog entries, physical books, Merlin compact PC, calibrated screen corners.");
  }
 }

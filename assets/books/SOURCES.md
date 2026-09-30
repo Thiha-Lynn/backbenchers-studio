@@ -26,3 +26,11 @@ Additional covers: `freedom.jpg`, `letters.jpg`, and `hope.jpg` are the official
 Reading-shelf WebP previews are compressed derivatives (up to 720 × 1080); the original downloaded covers remain beside them. No generative redraws were used for publisher covers. The new framed portrait is an original AI-generated faceless pencil interpretation; its generation prompt is saved in `assets/aung-san-suu-kyi-pencil-prompt.txt`. `assets/egunion-launcher.png` comes from the local EGUnionDecember project's configured Android application icon, `Assets/MFPS/Content/app launcher.png`. The phone itself is original procedural geometry and does not import gameplay systems.
 
 Release 1.5: `assets/studio-nature-triptych.png` is original AI-generated artwork for the jasmine, river, and flight wall studies. Its full built-in generation prompt is stored beside it. Publisher jackets remain original reference artwork; their geometry and presentation are upgraded without rewriting their text.
+
+## Complete archival novel · release 1.6
+
+**မောင်ရင်မောင် မမယ်မ — James Hla Kyaw (1904)**. Underlying novel by the author who died in 1919. Source: [Myanmar Department of Agriculture e-library catalogue, Nf2_0174](https://www.doa.gov.mm/elibrary_new/index.php?product_id=3339&route=product/product), [library scan](https://www.doa.gov.mm/elibrary_new/index.php?download_id=3347&route=extension%2Fmodule%2Fdownloads%2Fdownload). Retrieved 30 September 2026.
+
+`maung-yin-maung-text.pdf` contains source PDF pages 17–227 only: the original title leaf and novel through its printed ending. Later introductions, biographical material, and modern cover are excluded. The source scan is unretouched; its scanning watermark remains. It has no OCR layer. The 211-page count is the extracted PDF count, not the original printed pagination. First, middle, and final leaves were rendered and inspected. This is an archival reading copy, not a newly typeset or AI-reconstructed text.
+
+`maung-yin-maung-cover.svg` is an original typographic Backbenchers reading jacket, identified as such, not a reproduction of the publisher’s cover. This digital classic is additional to the 24 physical display books. The contemporary display titles retain clearly labeled companion pages and source links, not invented or unauthorized full texts.

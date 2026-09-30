@@ -1,4 +1,6 @@
 mergeInto(LibraryManager.library, {
+  BBStudioPrompt: function(json) { window.dispatchEvent(new CustomEvent('backbenchers-prompt', {detail:JSON.parse(UTF8ToString(json))})); },
+  BBStudioObject: function(json) { window.dispatchEvent(new CustomEvent('backbenchers-inspect', {detail:JSON.parse(UTF8ToString(json))})); },
   BBStudioPerformance: function(fps) {
     window.dispatchEvent(new CustomEvent('backbenchers-performance', {detail:{fps:fps}}));
   },

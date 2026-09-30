@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace Backbenchers
 {
-    public sealed class StudioExperience : MonoBehaviour
+    public sealed partial class StudioExperience : MonoBehaviour
     {
         public Camera viewCamera;
         public Vector3[] viewpoints;
@@ -60,6 +60,7 @@ namespace Backbenchers
         void Update()
         {
             if(paused || viewCamera == null) return;
+            UpdatePrompt();
             float dt=Mathf.Min(Time.unscaledDeltaTime,.05f);
             // Keep active exploration at display cadence; only hidden/modal views throttle.
             OnDemandRendering.renderFrameInterval=1;
@@ -85,11 +86,12 @@ namespace Backbenchers
                     yaw = viewCamera.transform.eulerAngles.y;
                     pitch = viewCamera.transform.eulerAngles.x;
                     if(pitch>180) pitch-=360;
-                    body.enabled = !seatedDevice;
+                    body.enabled = !seatedDevice && !inspecting;
                     smoothYaw=yaw;smoothPitch=pitch;
                 }
                 return;
             }
+            if(inspecting)return;
             if(seatedDevice){if(!seatReported || Mathf.Abs(viewCamera.fieldOfView-targetFov)>.01f)ReportSeat();return;}
             smoothYaw=Mathf.LerpAngle(smoothYaw,yaw,reducedMotion?1:1-Mathf.Exp(-24*dt));
             smoothPitch=Mathf.Lerp(smoothPitch,pitch,reducedMotion?1:1-Mathf.Exp(-24*dt));
@@ -117,14 +119,14 @@ namespace Backbenchers
         public void SetMotion(string value){reducedMotion=value=="reduced";}
         public void SetMove(string value)
         {
-            if(paused||seatedDevice)return;
+            if(paused||seatedDevice||inspecting)return;
             var parts=value.Split(',');
             if(parts.Length==2 && float.TryParse(parts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out var x) && float.TryParse(parts[1],NumberStyles.Float,CultureInfo.InvariantCulture,out var y))
                 {movement=Vector2.ClampMagnitude(new Vector2(x,y),1);if(movement.sqrMagnitude>0&&destination.HasValue){destination=null;body.enabled=true;yaw=viewCamera.transform.eulerAngles.y;pitch=viewCamera.transform.eulerAngles.x;if(pitch>180)pitch-=360;smoothYaw=yaw;smoothPitch=pitch;}}
         }
         public void Look(string value)
         {
-            if(paused||seatedDevice)return;
+            if(paused||seatedDevice||inspecting)return;
             if(destination.HasValue){destination=null;body.enabled=true;yaw=viewCamera.transform.eulerAngles.y;pitch=viewCamera.transform.eulerAngles.x;if(pitch>180)pitch-=360;smoothYaw=yaw;smoothPitch=pitch;}
             var parts=value.Split(',');
             if(parts.Length!=2 || !float.TryParse(parts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out var x) || !float.TryParse(parts[1],NumberStyles.Float,CultureInfo.InvariantCulture,out var y))return;
@@ -137,15 +139,15 @@ namespace Backbenchers
             bool instant=index.StartsWith("instant:");
             if(instant)index=index.Substring(8);
             if(!int.TryParse(index,out int i)||i<0||i>=viewpoints.Length)return;
-            seatedDevice=null;targetFov=normalFov;movement=velocity=Vector2.zero;destination=viewpoints[i];destinationRotation=Quaternion.Euler(viewAngles[i]);
+            inspecting=null;inspectionPosition=null;seatedDevice=null;targetFov=normalFov;movement=velocity=Vector2.zero;destination=viewpoints[i];destinationRotation=Quaternion.Euler(viewAngles[i]);
             if(i==4&&portraitViewport){destination=viewpoints[i]+new Vector3(0,.2f,.55f);destinationRotation=Quaternion.Euler(8,180,0);}
             if(instant){body.enabled=false;viewCamera.transform.SetPositionAndRotation(destination.Value,destinationRotation);body.enabled=true;destination=null;yaw=smoothYaw=destinationRotation.eulerAngles.y;pitch=smoothPitch=destinationRotation.eulerAngles.x;}
 #if UNITY_WEBGL && !UNITY_EDITOR
             BBStudioView(i);
 #endif
         }
-        public void SetViewport(string orientation){portraitViewport=orientation=="portrait";normalFov=portraitViewport?82:62;targetFov=seatedDevice?SeatedFov(seatedDevice):normalFov;seatReported=false;lastInteraction=Time.unscaledTime;}
-        public void SetPaused(string value){paused=value=="1";movement=velocity=Vector2.zero;OnDemandRendering.renderFrameInterval=paused?12:1;}
+        public void SetViewport(string orientation){portraitViewport=orientation=="portrait";normalFov=portraitViewport?82:62;targetFov=inspecting?48:seatedDevice?SeatedFov(seatedDevice):normalFov;if(inspecting)FocusObject(inspecting.GetEntityId().ToString());seatReported=false;lastInteraction=Time.unscaledTime;}
+        public void SetPaused(string value){paused=value=="1";lastPromptId="reset";movement=velocity=Vector2.zero;OnDemandRendering.renderFrameInterval=paused?12:1;}
         public void SetQuality(string value)
         {
             bool low=value=="low";
@@ -157,18 +159,15 @@ namespace Backbenchers
         }
         public void Interact(string coordinates)
         {
-            if(paused)return;
-            var p=coordinates.Split(',');
-            if(p.Length!=2||!float.TryParse(p[0],NumberStyles.Float,CultureInfo.InvariantCulture,out float x)||!float.TryParse(p[1],NumberStyles.Float,CultureInfo.InvariantCulture,out float y))return;
-            var ray=viewCamera.ViewportPointToRay(new Vector3(x,1-y,0));
-            if(!Physics.Raycast(ray,out var hit,6f))return;
+            if(paused||inspecting)return;
+            SetPointer(coordinates);
+            if(!InteractionHit(out var hit))return;
             var device=hit.collider.GetComponentInParent<StudioDevice>();
             if(device){SelectDevice(device.deviceId);return;}
             var item=hit.collider.GetComponentInParent<StudioInspectable>();
-#if UNITY_WEBGL && !UNITY_EDITOR
-            if(item)BBStudioInspect(item.topic);
-#endif
+            if(item)ReportInspection(item);
         }
+
         public void SelectDevice(string id)
         {
             if(devices==null)return;
