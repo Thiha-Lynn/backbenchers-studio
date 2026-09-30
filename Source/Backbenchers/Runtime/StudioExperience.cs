@@ -17,6 +17,7 @@ namespace Backbenchers
         private Vector2 movement;
         private float yaw, pitch;
         private bool paused;
+        private float lastInteraction;
         private Vector3? destination;
         private Quaternion destinationRotation;
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -42,6 +43,7 @@ namespace Backbenchers
         void Update()
         {
             if(paused || viewCamera == null) return;
+            OnDemandRendering.renderFrameInterval=destination.HasValue||movement.sqrMagnitude>.001f||Time.unscaledTime-lastInteraction<.5f?1:3;
             if(destination.HasValue)
             {
                 body.enabled = false;
@@ -67,7 +69,7 @@ namespace Backbenchers
                 Vector3 p = viewCamera.transform.position;
                 p.x = Mathf.Clamp(p.x,xLimits.x,xLimits.y);
                 p.z = Mathf.Clamp(p.z,zLimits.x,zLimits.y);
-                p.y = 1.6f;
+                p.y = 1.55f;
                 viewCamera.transform.position = p;
             }
         }
@@ -82,6 +84,7 @@ namespace Backbenchers
             if(paused || destination.HasValue)return;
             var parts=value.Split(',');
             if(parts.Length!=2 || !float.TryParse(parts[0],NumberStyles.Float,CultureInfo.InvariantCulture,out var x) || !float.TryParse(parts[1],NumberStyles.Float,CultureInfo.InvariantCulture,out var y))return;
+            lastInteraction=Time.unscaledTime;
             yaw+=x*.13f;pitch=Mathf.Clamp(pitch+y*.13f,-65,65);
             viewCamera.transform.rotation=Quaternion.Euler(pitch,yaw,0);
         }
@@ -96,16 +99,16 @@ namespace Backbenchers
             BBStudioView(i);
 #endif
         }
-        public void SetViewport(string orientation){if(viewCamera)viewCamera.fieldOfView=orientation=="portrait"?90:65;}
-        public void SetPaused(string value){paused=value=="1";movement=Vector2.zero;OnDemandRendering.renderFrameInterval=paused?12:(Application.isMobilePlatform?2:1);}
+        public void SetViewport(string orientation){if(viewCamera)viewCamera.fieldOfView=orientation=="portrait"?82:62;lastInteraction=Time.unscaledTime;}
+        public void SetPaused(string value){paused=value=="1";movement=Vector2.zero;OnDemandRendering.renderFrameInterval=paused?12:1;}
         public void SetQuality(string value)
         {
             bool low=value=="low";
-            QualitySettings.shadows=low?ShadowQuality.Disable:ShadowQuality.HardOnly;
+            QualitySettings.shadows=ShadowQuality.Disable;
             QualitySettings.shadowDistance=low?0:18;
-            QualitySettings.pixelLightCount=low?2:3;
-            QualitySettings.antiAliasing=low?0:2;
-            OnDemandRendering.renderFrameInterval=Application.isMobilePlatform?2:1;
+            QualitySettings.pixelLightCount=0;
+            QualitySettings.antiAliasing=low?2:4;
+            OnDemandRendering.renderFrameInterval=1;
         }
         void OnApplicationFocus(bool focus){if(!focus)movement=Vector2.zero;}
     }
