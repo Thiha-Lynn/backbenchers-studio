@@ -39,3 +39,6 @@ body.pointer-locked::after{content:'+';position:fixed;left:50%;top:50%;transform
 @media(max-width:560px){nav{gap:10px}nav button{font-size:9px}body.exploring header .logo-crop{width:105px}body.exploring header .logo-crop img{width:145px;height:145px;left:-18px;top:-51px}}
 
 .book-cover-link{display:block;border-radius:4px}.book-cover-link:focus-visible{outline:3px solid #b37149;outline-offset:4px}
+/* Keep the small tour controls easy to tap without overflowing narrow phones. */
+.tour-tools button{min-width:44px}
+@media(max-width:380px){.tour-tools select{width:62px;max-width:62px!important}.tour-tools{gap:0}.tour-tools button{padding-inline:4px}}

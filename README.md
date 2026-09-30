@@ -3,9 +3,25 @@
 An interactive Unity studio visit by Thomas D. Lynn. The welcome page and project stories load before the 3D engine; choose **Step inside** to explore.
 
 - Drag to look; WASD or arrows to walk.
-- Four compact camera controls provide a guided visit: room, desk, crew, and drone lab.
+- Five compact camera controls provide a guided visit: room, desk, crew, drone lab, and reading shelf.
 - Touch movement controls and a light quality preset support smaller screens.
 - Selected work, crew posters, profile, and portfolio links remain available without starting Unity.
+
+## A working shelf, a reading desk · 1.5
+
+The original binders, storage boxes, plants, and ornaments remain in their Demo positions. Books occupy small stacks within the original book footprints, with an outward-facing jacket above each stack and two featured books on the west cabinet. Twenty-four distinct titles appear once each. **05 Read** provides a closer shelf view. The wall gallery combines the faceless Aung San Suu Kyi portrait with original jasmine, Irrawaddy, and bird studies in warm oak, brass, and cotton-paper frames. The Mac mini has an Apple logo inlay.
+
+Tap a physical book to pick it up: its room model is hidden until **Put back** returns it. The paper reader uses two-page spreads on laptops and a single page on phones, animated turns, keyboard/swipe navigation, contents, search, bookmarks, text sizing, and private notes. The room stays visible behind the pages. Published titles contain labeled companions and source links, not full copyrighted texts. The six-page studio journal is original writing. **Open file** reads local PDF, TXT, and Markdown files without uploading them. PDFs render through a lazily loaded, vendored PDF.js worker with bounded canvas resolution, fit-to-page zoom, and text search. Scanned PDFs need embedded text for search. Text imports are limited to 2 MB; PDFs to 40 MB and 2,000 pages. Password-protected PDFs need an unlocked copy. File contents are not persisted; bookmarks and notes remain in browser storage.
+
+A quiet original 72 BPM lo-fi sketch starts after **Step inside**. It is synthesized locally using Web Audio, with no streamed recording. The tour bar provides mute, Comfort settings provides volume, and music suspends when the tab is hidden or the visitor exits. The preference is remembered.
+
+`StudioGalleryBuilder.Apply` runs at the end of the repeatable workstation upgrade. Copy `studio-nature-triptych.png` and `apple-logo.png` into the Unity Brand folder along with the 1.4 assets. Rebuild, rebake lighting, save, and export as before. Original publisher covers are retained; the nature artwork was generated with the built-in image tool, with its full prompt saved under `assets`.
+
+The reading interactions were inspired by [md2book](https://github.com/thixpin/md2book); this reader is an original implementation, not a bundle of that package. PDF.js 6.3.289 is from Mozilla's official `pdfjs-dist` npm package under Apache-2.0. Its license and font/CMap/wasm notices are preserved in `desktop/pdfjs`.
+
+## Release 1.5 validation
+
+The final Unity Web build succeeded and every fingerprinted runtime file matches its manifest. Browser checks verified shelf-book pickup and return, cover/spread transitions, bookmarks, saved position and notes, text size, and text search. A real 14-page PDF was imported, rendered, searched, zoomed, turned, and closed; a PDF.js lifecycle cleanup issue found during testing was corrected. The reading desk and tour controls were checked at 1280 px, 375 px, and 320 px widths. Music mute/resume suspended and resumed its AudioContext, and the room reported about 60 fps on this machine with music playing. PDF rendering is capped at 2.4 million pixels per visible page, and the PDF library is not part of the initial 3D load. Physical mobile performance and real multitouch remain unverified.
 
 ## Reading room and motion update · 1.4
 

@@ -32,7 +32,7 @@ public static class StudioPolishBuilder {
   Box("Back jacket",new Vector3(0,0,.014f),new Vector3(w,height,.003f),cloth,g.transform);
   var face=GameObject.CreatePrimitive(PrimitiveType.Quad);face.name="Book jacket";face.transform.SetParent(g.transform,false);face.transform.localPosition=new Vector3(0,0,-.014f);face.transform.localScale=new Vector3(w,height,1);face.GetComponent<Renderer>().sharedMaterial=Cover(i);UnityEngine.Object.DestroyImmediate(face.GetComponent<Collider>());face.isStatic=true;
   var spine=GameObject.CreatePrimitive(PrimitiveType.Quad);spine.name="Printed spine";spine.transform.SetParent(g.transform,false);spine.transform.localPosition=new Vector3(-w/2-.003f,0,0);spine.transform.localRotation=Quaternion.Euler(0,90,0);spine.transform.localScale=new Vector3(thickness+.004f,height,1);spine.GetComponent<Renderer>().sharedMaterial=Mat("Reading spine "+i,"#ffffff",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Books/"+System.IO.Path.GetFileNameWithoutExtension(Books[i])+"-spine.png"));UnityEngine.Object.DestroyImmediate(spine.GetComponent<Collider>());spine.isStatic=true;
-  var c=g.AddComponent<BoxCollider>();c.size=new Vector3(w,height,.034f);g.AddComponent<StudioInspectable>().topic="library";
+  var c=g.AddComponent<BoxCollider>();c.size=new Vector3(w,height,.034f);g.AddComponent<StudioInspectable>().topic="book:"+System.IO.Path.GetFileNameWithoutExtension(Books[i]);
  }
  static void Move(string name,Vector3 center){var g=GameObject.Find(name);if(!g)return;var rs=g.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var b=rs[0].bounds;foreach(var r in rs)b.Encapsulate(r.bounds);g.transform.position+=center-b.center;}
  static GameObject Rounded(string name,Vector3 p,Vector3 size,float radius,Material mat,Transform parent){
@@ -109,10 +109,11 @@ public static class StudioPolishBuilder {
    }
    bool west=pos.x<12;float width=west?b.size.z:b.size.x;
    int count=Mathf.Min(available,Mathf.Clamp(Mathf.FloorToInt(width/.045f),1,3));
+   // A low stack and one outward-facing volume retain the Demo's clutter rhythm.
    for(int j=0;j<count;j++){
-    float h=Mathf.Min(.265f,b.size.y)*(j%3==0?.91f:1f);
-    var p=pos+(west?Vector3.forward:Vector3.right)*((j-(count-1)*.5f)*.033f);p.y=b.min.y+h/2;
-    Book(remaining.Dequeue(),p,Quaternion.Euler(0,west?180:90,0),h);
+    bool featured=j==count-1;float h=Mathf.Min(.225f,b.size.y);
+    var p=pos;p.y=b.min.y+(featured?(count-1)*.031f+h/2:.016f+j*.031f);
+    Book(remaining.Dequeue(),p,featured?Quaternion.Euler(-4,west?270:180,0):Quaternion.Euler(90,0,west?90+j*3:j*3),h);
    }
   }
   if(remaining.Count>0)throw new InvalidOperationException("Not all distinct books received a placement.");
@@ -158,7 +159,8 @@ public static class StudioPolishBuilder {
   foreach(var filter in root.GetComponentsInChildren<MeshFilter>()){
    var mesh=filter.sharedMesh;if(mesh && mesh.uv2.Length==0 && AssetDatabase.GetAssetPath(mesh).StartsWith(Root+"/DisplayMeshes/")){Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);}
   }
-  PlayerSettings.bundleVersion="1.4.0";
+  StudioGalleryBuilder.Apply(Titles);
+  PlayerSettings.bundleVersion="1.5.0";
   EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());EditorSceneManager.SaveOpenScenes();AssetDatabase.SaveAssets();Debug.Log("Reading room upgraded: 24 distinct catalog entries, physical books, Merlin compact PC, calibrated screen corners.");
  }
 }
