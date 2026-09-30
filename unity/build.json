@@ -1,0 +1,6 @@
+{
+  "loader": "Build/unity.loader.js",
+  "data": "Build/unity.data.unityweb",
+  "framework": "Build/unity.framework.js.unityweb",
+  "wasm": "Build/unity.wasm.unityweb"
+}
