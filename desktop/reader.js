@@ -1,4 +1,4 @@
-import {PageFlip} from './pageflip/page-flip.module.js?v=12';
+import {PageFlip} from './pageflip/page-flip.module.js?v=13';
 export function createReader({paper,onImport}){
  const $=id=>document.getElementById(id),dialog=$('book-reader'),stage=$('reader-stage'),spread=$('reader-spread');
  let book=null,pages=[],page=0,turning=false,epoch=0,start=null,font=17,zoom=1,paintEpoch=0;
@@ -99,7 +99,10 @@ export function createReader({paper,onImport}){
    leaf.classList.add('turning-cover');leaf.setAttribute('aria-hidden','true');leaf.disabled=true;
    Object.assign(leaf.style,{position:'absolute',left:(rect.left-bounds.left)+'px',top:(rect.top-bounds.top)+'px',width:rect.width+'px',height:rect.height+'px',maxWidth:'none',maxHeight:'none',margin:'0',transformOrigin:'left center',animation:'none'});
    page=next;render();turning=true;stage.append(leaf);
-   transition=leaf.animate([{transform:'rotateY(-8deg) rotateZ(-1deg)',opacity:1},{transform:'rotateY(-110deg) rotateZ(0deg)',opacity:1,offset:.7},{transform:'rotateY(-172deg)',opacity:0}],{duration:820,easing:'cubic-bezier(.25,.65,.25,1)',fill:'forwards'});
+   const opened=spread.getBoundingClientRect(),hingeX=opened.left+(wide.matches?leafWidth:0),hingeY=opened.top;
+   Object.assign(leaf.style,{left:(hingeX-bounds.left)+'px',top:(hingeY-bounds.top)+'px',width:leafWidth+'px',height:leafHeight+'px'});
+   const startX=rect.left-hingeX,startY=rect.top-hingeY;
+   transition=leaf.animate([{transform:`translate(${startX}px,${startY}px) rotateY(-8deg)`,opacity:1},{transform:'translate(0,0) rotateY(-90deg)',opacity:1,offset:.55},{transform:'translate(0,0) rotateY(-180deg)',opacity:0}],{duration:820,easing:'cubic-bezier(.25,.65,.25,1)',fill:'forwards'});
    await settle(transition);leaf.remove();
   }else{
    turning=true;transition=spread.animate([{transform:'rotateX(0) scale(1)',opacity:1},{transform:'rotateX(12deg) scale(.94)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'});await settle(transition);transition.cancel();if(ticket!==epoch)return;page=0;render();

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "tech-agents-applications",
+    "source": "https://www.manning.com/books/ai-agents-and-applications",
+    "coverSource": "https://images.manning.com/720/960/resize/book/b/3b625dd-3432-45c6-8a20-5fa7c7dc857a/Infante-HI.png",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  },
+  {
+    "id": "tech-agents-action",
+    "source": "https://www.manning.com/books/ai-agents-in-action",
+    "coverSource": "https://images.manning.com/720/960/resize/book/0/59c4c47-9022-400a-8bdf-a55e158f2728/Lanham-HI.png",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  },
+  {
+    "id": "tech-docker-lunches",
+    "source": "https://www.manning.com/books/learn-docker-in-a-month-of-lunches-second-edition",
+    "coverSource": "https://images.manning.com/720/960/resize/book/b/adb3a86-dd25-4e21-8c15-96095cf31697/Stoneman-HI.png",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  },
+  {
+    "id": "tech-ai-engineering",
+    "source": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
+    "coverSource": "https://learning.oreilly.com/library/cover/9781098166298/500w/",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  },
+  {
+    "id": "tech-data-systems",
+    "source": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+    "coverSource": "https://learning.oreilly.com/library/cover/9781098119058/500w/",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  },
+  {
+    "id": "tech-typescript",
+    "source": "https://www.oreilly.com/library/view/learning-typescript/9781098110321/",
+    "coverSource": "https://learning.oreilly.com/library/cover/9781098110321/500w/",
+    "checked": "2026-10-01",
+    "credit": "Cover artwork belongs to the publisher and author."
+  }
+]

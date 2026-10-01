@@ -1,4 +1,16 @@
-## Studio tour 1.8 — drawing collections
+## Studio tour 1.9 — in-place inspection, phones and technical shelf
+
+Object inspection keeps the authored object at its original position and scale. Orbit, tilt, pan, zoom and reset move the camera around it; there is no enlarged floating copy. Cover opening reveals a centered spread immediately and hinges over the right-hand page. Narrow screens retain a readable single-page layout.
+
+Both phones now use a dedicated portrait interface with tap/swipe unlock, a home screen, locally saved Notes, the five-drawing Photos gallery, a clock, calculator, lock and power controls. “Pick up phone” and “Put down” replace the computer seating flow. The previous game-branded phone screen is replaced in the scene and device card. Computers and tablets retain their workspace.
+
+Six publisher-sourced technical titles join the existing books: AI Agents and Applications, AI Agents in Action, AI Engineering, Learning TypeScript, Learn Docker in a Month of Lunches (second edition), and Designing Data-Intensive Applications (second edition). A few face-out covers and a low stack occupy existing shelf tops. The library has a Tech & tools filter. Sources and image URLs are recorded in `assets/books/technology-sources.json` (checked October 1, 2026). These are book companions and source links; full commercial book texts are not bundled. Run `StudioTechnologyBuilder.Apply()` after importing these covers and `Brand/phone-home.png`.
+
+The displayed drawing PNGs were edited with the built-in image generator to remove handwritten signatures/dates (and the still-life competition heading), retaining the drawings as closely as possible. Prompts are recorded in `assets/art/generation.json`; untouched source photos remain available through Original.
+
+Validation scripts include `verify-phone.cjs`, opening-center assertions in `verify-reader-fit.cjs`, and the existing room/art/reader checks.
+
+## Studio tour 1.8 — drawing collections (layout foundation)
 
 Five studio-supplied pencil drawings are arranged as loose sheets across the working desks and a slim oak drawing table. The original desk papers and supplies are restored and clear of the drawings. Each new sheet has a brighter neutral paper material, a thin cotton-paper edge, slight curl, and its own pickup interaction. A still life sits beside the software desk’s book, a pair overlaps beside the creative desk’s tablet, and two full studies sit with drafting stacks, pencils and an eraser on the matching oak table. A flight note rests on the lab’s existing storage box. The papers use clear surfaces without replacing the original props. The clean paper PNGs were regenerated from the supplied photographs using the built-in image generator, preserving their subjects and compositions as closely as possible. They are reconstructions, not pixel-identical scans. The exact source JPEGs, including signatures, remain in `assets/art` and accessible through Original. The PNGs and full generation prompts (`assets/art/generation.json`) are saved there for reuse; the room uses compressed texture imports. The collection credit is **Studio drawing collections**, as requested by the studio.
 
@@ -10,7 +22,7 @@ Validation: Unity Web build succeeded with zero errors. Browser checks cover all
 
 ## Studio tour 1.7 — room, objects, and paper
 
-Small objects lift into a clear inspection space with a full horizontal orbit, vertical tilt, pan, zoom, reset, and optional auto rotation. Drag or use the buttons; Shift-drag pans, scroll/pinch zooms, arrows tilt/rotate, and R resets. Wall artwork has controlled angled views, pan and zoom. Inspection panels size to the available window height, and the camera accounts for the panel’s footprint.
+Objects remain at their authored positions while the camera provides horizontal orbit, vertical tilt, pan, zoom, reset, and optional auto rotation. Drag or use the buttons; Shift-drag pans, scroll/pinch zooms, arrows tilt/rotate, and R resets. Wall artwork has controlled angled views, pan and zoom. Inspection panels size to the available window height, and the camera accounts for the panel’s footprint.
 
 The portrait, jasmine and bird studies return to the original wall grouping, and both original small desk frames are present again. The added aircraft and drone wall frames have been removed at the studio’s request. The Irrawaddy study stays beside the reading shelf. A sailplane drawing follows the plotter’s existing curved paper mesh. `scripts/create-flight-art.py` preserves the drawing source (Pillow; Courier New on macOS).
 

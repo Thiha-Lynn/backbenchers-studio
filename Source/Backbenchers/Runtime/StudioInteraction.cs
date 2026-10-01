@@ -10,7 +10,7 @@ namespace Backbenchers {
   Quaternion inspectionRotation;
   Vector3 inspectCenter,inspectDirection;
   float inspectDistance,inspectAngle,inspectElevation,inspectZoom=1,nextPrompt,inspectionInset=.3f;
-  Vector2 inspectPan; bool inspectAuto; GameObject displayCopy; Renderer[] hiddenOriginals;
+  Vector2 inspectPan; bool inspectAuto;
   Vector2 pointer=new Vector2(.5f,.5f),lastPromptPosition;
   string lastPromptId="";
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -48,18 +48,7 @@ namespace Backbenchers {
     var rs=item.GetComponentsInChildren<Renderer>();var bounds=new Bounds(item.transform.position,Vector3.zero);if(rs.Length>0){bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);}
     var initialDirection=(inspectionPosition.Value-bounds.center).normalized;
     inspectCenter=bounds.center;inspectAngle=0;inspectElevation=0;inspectPan=Vector2.zero;inspectAuto=false;inspectZoom=1;targetFov=48;
-    // Small models are lifted into a clear space so the rear and underside are accessible.
-    if(!item.flat && Mathf.Max(bounds.size.x,bounds.size.y,bounds.size.z)<1.4f){
-     displayCopy=Instantiate(item.gameObject);displayCopy.name="Inspection display";
-     foreach(var c in displayCopy.GetComponentsInChildren<Collider>())c.enabled=false;
-     foreach(var i in displayCopy.GetComponentsInChildren<StudioInspectable>())Destroy(i);
-     float scale=.72f/Mathf.Max(.06f,Mathf.Max(bounds.size.x,bounds.size.y,bounds.size.z));
-     displayCopy.transform.localScale*=scale;
-     Vector3 center=new Vector3(14.65f,1.65f,7.7f);
-     displayCopy.transform.position=center+(item.transform.position-bounds.center)*scale;
-     hiddenOriginals=rs;foreach(var r in hiddenOriginals)r.enabled=false;
-     bounds=new Bounds(center,bounds.size*scale);inspectCenter=center;
-    }
+    // Inspect the authored object in place; only the camera moves.
     inspectDirection=item.flat?item.outward.normalized:initialDirection;
     if(!item.flat){inspectDirection.y=Mathf.Max(.4f,inspectDirection.y);inspectDirection.Normalize();}
     float width=item.flat?Mathf.Max(bounds.size.x,bounds.size.z):Mathf.Max(bounds.size.x,bounds.size.z)*1.15f;
@@ -68,10 +57,11 @@ namespace Backbenchers {
    }
   }
   public void HoldArtwork(string id){foreach(var item in UnityEngine.Object.FindObjectsByType<StudioInspectable>(FindObjectsSortMode.None))if(item.topic.StartsWith("art:"))foreach(var r in item.GetComponentsInChildren<Renderer>())r.enabled=item.topic!="art:"+id;}
-  void ClearDisplay(){if(displayCopy)Destroy(displayCopy);displayCopy=null;if(hiddenOriginals!=null)foreach(var r in hiddenOriginals)if(r)r.enabled=true;hiddenOriginals=null;inspectAuto=false;}
+  void ClearDisplay(){inspectAuto=false;}
   void PositionInspection(){
    var horizontal=Quaternion.AngleAxis(inspectAngle,Vector3.up)*inspectDirection;
    var direction=Quaternion.AngleAxis(inspectElevation,Vector3.Cross(Vector3.up,horizontal).normalized)*horizontal;
+   if(!inspecting.flat){direction.y=Mathf.Max(.3f,direction.y);direction.Normalize();}
    var right=Vector3.Cross(Vector3.up,direction).normalized;
    var center=inspectCenter+right*inspectPan.x+Vector3.up*inspectPan.y;
    var p=center+direction*inspectDistance*inspectZoom;

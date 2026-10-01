@@ -248,5 +248,65 @@
     "note": "A political travelogue following Orwell’s connections with Burma.",
     "cover": "finding.jpg",
     "preview": "finding-preview.webp"
+  },
+  {
+    "id": "tech-agents-applications",
+    "title": "AI Agents and Applications",
+    "author": "Roberto Infante",
+    "category": "Agentic AI · LangChain, LangGraph & MCP",
+    "note": "A practical route from prompts and retrieval to tool-using agents and multi-agent workflows.",
+    "cover": "tech-agents-applications.jpg",
+    "source": "https://www.manning.com/books/ai-agents-and-applications",
+    "collection": "technology"
+  },
+  {
+    "id": "tech-agents-action",
+    "title": "AI Agents in Action",
+    "author": "Micheal Lanham",
+    "category": "Agentic AI · practical development",
+    "note": "Build and evaluate agents with tools, memory, planning, and coordinated workflows.",
+    "cover": "tech-agents-action.jpg",
+    "source": "https://www.manning.com/books/ai-agents-in-action",
+    "collection": "technology"
+  },
+  {
+    "id": "tech-docker-lunches",
+    "title": "Learn Docker in a Month of Lunches, Second Edition",
+    "author": "Elton Stoneman",
+    "category": "Modern tooling · Docker",
+    "note": "Short practical lessons in container images, Compose, networking, and deployment.",
+    "cover": "tech-docker-lunches.jpg",
+    "source": "https://www.manning.com/books/learn-docker-in-a-month-of-lunches-second-edition",
+    "collection": "technology"
+  },
+  {
+    "id": "tech-ai-engineering",
+    "title": "AI Engineering",
+    "author": "Chip Huyen",
+    "category": "AI engineering · foundation models",
+    "note": "Design, evaluate, and operate useful applications built with foundation models.",
+    "cover": "tech-ai-engineering.jpg",
+    "source": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
+    "collection": "technology"
+  },
+  {
+    "id": "tech-data-systems",
+    "title": "Designing Data-Intensive Applications, 2nd Edition",
+    "author": "Martin Kleppmann and Chris Riccomini",
+    "category": "Systems · data architecture",
+    "note": "Explore the trade-offs behind reliable databases, distributed systems, and data processing.",
+    "cover": "tech-data-systems.jpg",
+    "source": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+    "collection": "technology"
+  },
+  {
+    "id": "tech-typescript",
+    "title": "Learning TypeScript",
+    "author": "Josh Goldberg",
+    "category": "Web stack · TypeScript",
+    "note": "Learn the type system behind modern JavaScript application development.",
+    "cover": "tech-typescript.jpg",
+    "source": "https://www.oreilly.com/library/view/learning-typescript/9781098110321/",
+    "collection": "technology"
   }
 ]

@@ -28,5 +28,17 @@
     "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same short-haired woman's pencil portrait, delicate freckles, eyes, hair and shirt. Rotate the drawn portrait upright, head at top and shoulders at bottom. Preserve the same facial likeness, linework, and original signature/date. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
     "method": "Built-in image_gen image editing; reference photograph retained.",
     "file": "portrait-paper.png"
+  },
+  {
+    "date": "2026-10-01",
+    "method": "Built-in image generator, precise-object-edit",
+    "assets": [
+      "still-life",
+      "tiger",
+      "itachi",
+      "david",
+      "portrait"
+    ],
+    "prompt": "Use case: precise-object-edit. Edit target: this existing studio pencil drawing PNG. Remove ONLY the handwritten artist signature/name and handwritten date, blending those areas seamlessly into the existing blank paper. For the still life also remove the heading 'Pencil Art Competition'. Keep all drawing strokes, faces, composition, proportions, shading, paper texture, framing and image dimensions unchanged as closely as possible. Do not redraw or stylize the subject. For David keep the carved lettering on the statue base; remove only the handwritten signature/date at bottom right. Output the same full paper drawing with no artist signature or handwritten dates."
   }
 ]

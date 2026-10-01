@@ -77,3 +77,7 @@ body:has(#object-prompt:not([hidden])) #explore-hint{visibility:hidden}
 .inspect-actions{position:relative}.inspect-heading{position:sticky;top:-1px;background:#203b32;z-index:2;padding-bottom:3px}
 @media(max-height:700px){#object-inspector{padding:10px 16px}#inspect-copy{display:none}#inspect-title{font-size:20px;margin:5px 0}#inspect-hint{margin-bottom:5px}.inspect-actions button,.inspect-actions a{font-size:11px;padding:7px 10px}.inspect-heading{float:none}.inspect-heading .eyebrow{display:block}}
 @media(max-height:500px){#object-inspector{max-height:45dvh}.inspect-heading{float:right}.inspect-heading .eyebrow{display:none}}
+
+#device-preview.phone-preview{width:auto;max-height:220px;max-width:100%;aspect-ratio:9/19.5;object-fit:contain;margin-inline:auto;border-radius:16px;display:block}
+
+.library-filters{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 10px}.library-filters button{border:1px solid #203a3244;background:transparent;color:#203a32;border-radius:20px;min-height:40px;padding:8px 16px;font:12px Arial}.library-filters button[aria-pressed=true]{background:#203a32;color:#f3ead7}

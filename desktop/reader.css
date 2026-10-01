@@ -62,3 +62,7 @@
 .paper-prev{left:16px}.paper-next{right:16px}.paper-nav:disabled{opacity:.25;cursor:default}.paper-nav:focus-visible{outline:2px solid #f4d394;outline-offset:3px}.paper-nav:hover:not(:disabled){background:#365448}
 @media(max-width:799px){.reader-stage,.reader-focused .reader-stage{padding-inline:54px}.paper-nav{min-width:44px;min-height:56px;width:44px;padding:6px;font-size:10px;overflow-wrap:anywhere}.paper-prev{left:4px}.paper-next{right:4px}.reader-footer{height:26px;min-height:26px}}
 @media(max-height:550px){.reader-stage{padding-top:6px;padding-bottom:6px}.reader-focused .reader-stage{padding-top:54px}.reader-footer{height:24px;min-height:24px}.paper-nav{min-height:48px}}
+
+/* Cover and spread share a single centered stage, including the opening frame. */
+#reader-cover[hidden],#reader-spread[hidden]{display:none!important}
+.reader-stage{align-items:center;justify-content:center}.turning-cover{contain:layout paint;box-shadow:4px 10px 24px #0003}
