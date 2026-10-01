@@ -1,8 +1,8 @@
-import {createArtViewer} from './desktop/art.js?v=11';
-import {createFoley} from './desktop/foley.js?v=11';
-import {createLofi} from './desktop/lofi.js?v=11';
-import {createReader,studioJournal} from './desktop/reader.js?v=11';
-import {createDesktop} from './desktop/desktop.js?v=11';
+import {createArtViewer} from './desktop/art.js?v=12';
+import {createFoley} from './desktop/foley.js?v=12';
+import {createLofi} from './desktop/lofi.js?v=12';
+import {createReader,studioJournal} from './desktop/reader.js?v=12';
+import {createDesktop} from './desktop/desktop.js?v=12';
 const $=id=>document.getElementById(id), canvas=$('unity-canvas');
 let instance=null,loadingPromise=null,inStudio=false,cancelled=false,keys=new Set(),drag=null,currentPanel=null,lastFocus=null,renderer='';
 const coarse=matchMedia('(pointer:coarse)').matches, reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -18,12 +18,12 @@ function queueLook(x,y){lookX+=x;lookY+=y;if(!lookFrame)lookFrame=requestAnimati
 if(coarse)$('explore-hint').textContent='Left thumb to walk · Drag to look · Tap screens';
 function send(method,value=''){if(instance)instance.SendMessage('StudioExperience',method,String(value));}
 function stop(){keys.clear();lookX=lookY=0;cancelAnimationFrame(lookFrame);lookFrame=0;send('SetMove','0,0');drag=null;}
-function setView(index){const names=['Make yourself at home.','Where ideas take shape.','The Backbenchers crew.','Curiosity takes flight.','Stories we keep close.'];$('view-number').textContent=`0${index+1} / ${['THE ROOM','THE WORKBENCH','BOUNTY GALLERY','DRONE LAB','READING ROOM'][index]}`;$('view-title').textContent=names[index];document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.view)===index)));}
+function setView(index){const names=['Make yourself at home.','Where ideas take shape.','The Backbenchers crew.','Curiosity takes flight.','Stories we keep close.','A little space for drawing.'];$('view-number').textContent=`0${index+1} / ${['THE ROOM','THE WORKBENCH','BOUNTY GALLERY','DRONE LAB','READING ROOM','DRAWING TABLE'][index]}`;$('view-title').textContent=names[index];document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.view)===index)));}
 function showStudio(){inStudio=true;foley.tour(true);document.body.classList.add('exploring');document.body.classList.remove('loading');$('welcome').hidden=true;$('corner-note').hidden=true;$('tour').hidden=false;$('loading').hidden=true;send('SetPaused','0');send('SetQuality',$('quality').value);send('SetMotion',motionReduced?'reduced':'smooth');sizeCanvas();canvas.focus();}
 function welcome(){leaveInspection();hidePrompt();lofi.tour(false);foley.tour(false);inStudio=false;$('device-card').hidden=true;document.exitPointerLock?.();stop();send('SetPaused','1');document.body.classList.remove('exploring');$('welcome').hidden=false;$('corner-note').hidden=false;$('tour').hidden=true;$('enter').disabled=false;$('enter').querySelector('span').textContent=instance?'Return to the studio':'Step inside';$('enter').focus();}
 function loadUnity(){if(loadingPromise)return loadingPromise;
-loadingPromise=(async()=>{const response=await fetch('unity/build.json?v=11',{cache:'no-store'});if(!response.ok)throw Error('Studio build is not available.');const build=await response.json();await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='unity/'+build.loader;script.onload=resolve;script.onerror=()=>reject(Error('Could not load the studio engine.'));document.head.appendChild(script);});
-const base='unity/';const config={dataUrl:base+build.data,frameworkUrl:base+build.framework,codeUrl:base+build.wasm,streamingAssetsUrl:base+'StreamingAssets',companyName:'Backbenchers Studio',productName:'Backbenchers Studio',productVersion:'1.8',matchWebGLToCanvasSize:true,devicePixelRatio:renderScale,showBanner:(message,type)=>{if(type==='error'){$('load-error').hidden=false;$('load-error').textContent='The 3D studio could not start on this device. Your portfolio links below remain available.';console.error(message);}},print:message=>console.log(message),printErr:message=>console.warn(message)};
+loadingPromise=(async()=>{const response=await fetch('unity/build.json?v=12',{cache:'no-store'});if(!response.ok)throw Error('Studio build is not available.');const build=await response.json();await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='unity/'+build.loader;script.onload=resolve;script.onerror=()=>reject(Error('Could not load the studio engine.'));document.head.appendChild(script);});
+const base='unity/';const config={dataUrl:base+build.data,frameworkUrl:base+build.framework,codeUrl:base+build.wasm,streamingAssetsUrl:base+'StreamingAssets',companyName:'Backbenchers Studio',productName:'Backbenchers Studio',productVersion:'1.8.1',matchWebGLToCanvasSize:true,devicePixelRatio:renderScale,showBanner:(message,type)=>{if(type==='error'){$('load-error').hidden=false;$('load-error').textContent='The 3D studio could not start on this device. Your portfolio links below remain available.';console.error(message);}},print:message=>console.log(message),printErr:message=>console.warn(message)};
 const app=await window.createUnityInstance(canvas,config,progress=>{$('progress').style.width=Math.round(progress*100)+'%';$('loading-label').textContent=progress<.9?`Opening the doors… ${Math.round(progress*100)}%`:'Arranging the studio…';});instance=app;return app;})();return loadingPromise;}
 $('enter').onclick=async()=>{foley.tour(true);lofi.tour(true);cancelled=false;$('load-error').hidden=true;if(instance){showStudio();return;}$('enter').disabled=true;$('loading').hidden=false;document.body.classList.add('loading');try{await loadUnity();if(!cancelled)showStudio();else{welcome();$('loading').hidden=true;}}catch(error){lofi.tour(false);console.error(error);loadingPromise=null;document.body.classList.remove('loading');$('loading').hidden=true;$('load-error').textContent='We couldn’t open the 3D studio. Please reload and try again, or explore the selected work and full portfolio.';$('load-error').hidden=false;$('enter').disabled=false;}};
 $('cancel-load').onclick=()=>{lofi.tour(false);cancelled=true;$('loading-label').textContent='The studio is loading in the background. Browse the work while it finishes.';};
@@ -130,10 +130,11 @@ document.addEventListener('click',e=>{if(inStudio&&e.target.closest('button')&&!
 const lofi=createLofi($('lofi-button'),$('lofi-volume'));
 const artViewer=createArtViewer({paper:()=>foley.play('paper'),onSelect:id=>send('HoldArtwork',id)});
 function openArt(id){bookRequest++;leaveInspection();hidePrompt();stop();document.exitPointerLock?.();$('device-card').hidden=true;lastFocus=document.activeElement;if(currentPanel)currentPanel.close();currentPanel=$('art-viewer');document.body.classList.add('viewing-art');send('SetPaused','1');currentPanel.showModal();artViewer.open(id);}
+$('art-table-visit').onclick=()=>{if(currentPanel)currentPanel.close();leaveInspection();stop();send('Visit',(motionReduced?'instant:':'')+'5');setView(5);canvas.focus();};
 for(const button of document.querySelectorAll('[data-art]'))button.onclick=()=>openArt(button.dataset.art);
 const reader=createReader({paper:()=>foley.play('paper'),onImport:book=>openBook(book)});
 let libraryLoaded=false,bookCatalog=null,bookRequest=0;
-async function catalog(){if(bookCatalog)return bookCatalog;const response=await fetch('assets/books/catalog.json?v=11');if(!response.ok)throw Error('Could not load books');return bookCatalog=await response.json();}
+async function catalog(){if(bookCatalog)return bookCatalog;const response=await fetch('assets/books/catalog.json?v=12');if(!response.ok)throw Error('Could not load books');return bookCatalog=await response.json();}
 async function openBook(id){
  const request=++bookRequest;
  try{const book=typeof id==='object'?id:(await catalog()).find(b=>b.id===id);if(!book||request!==bookRequest)return;

@@ -53,7 +53,7 @@ public static class StudioImmersionBuilder {
   if(portrait){var item=portrait.GetComponent<StudioInspectable>();item.flat=true;item.outward=Vector3.left;}
   // A softly lit vestibule gives the open door depth while keeping the tour inside the office.
   if(!GameObject.Find("Studio vestibule")){var g=new GameObject("Studio vestibule");var wall=Material("Vestibule plaster",new Color(.36f,.40f,.34f));Box("Hall beyond door",g.transform,new Vector3(16.56f,1.15f,10.7f),new Vector3(1.1f,2.3f,.06f),wall);Box("Hall floor",g.transform,new Vector3(16.56f,-.015f,10.4f),new Vector3(1.1f,.04f,.7f),wall);}
-  StudioArtBuilder.Apply();PlayerSettings.bundleVersion="1.8.0";EditorUtility.SetDirty(room);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveOpenScenes();AssetDatabase.SaveAssets();Debug.Log("Immersive room 1.7 applied");
+  StudioArtBuilder.Apply();PlayerSettings.bundleVersion="1.8.1";EditorUtility.SetDirty(room);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveOpenScenes();AssetDatabase.SaveAssets();Debug.Log("Immersive room 1.7 applied");
  }
  public static void Build(){var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{Root+"/Scenes/BackbenchersStudio.unity"},locationPathName=System.IO.Path.GetFullPath("../studio-web/unity"),target=BuildTarget.WebGL,options=BuildOptions.None});System.IO.File.WriteAllText("Inspection/immersion-build.json",JsonUtility.ToJson(new BuildResult{result=report.summary.result.ToString(),errors=report.summary.totalErrors,bytes=report.summary.totalSize},true));if(report.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new Exception("Web build failed");}
  [Serializable] class BuildResult{public string result;public int errors;public ulong bytes;}

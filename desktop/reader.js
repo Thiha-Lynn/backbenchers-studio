@@ -1,4 +1,4 @@
-import {PageFlip} from './pageflip/page-flip.module.js?v=11';
+import {PageFlip} from './pageflip/page-flip.module.js?v=12';
 export function createReader({paper,onImport}){
  const $=id=>document.getElementById(id),dialog=$('book-reader'),stage=$('reader-stage'),spread=$('reader-spread');
  let book=null,pages=[],page=0,turning=false,epoch=0,start=null,font=17,zoom=1,paintEpoch=0;
