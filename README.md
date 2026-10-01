@@ -1,3 +1,27 @@
+## Studio tour 1.8 — drawing collections
+
+Five studio-supplied pencil drawings are arranged as two quiet groups of loose sheets on the shared desks. Each has a thin cotton-paper edge, slight curl, and its own pickup interaction. The clean paper PNGs were regenerated from the supplied photographs using the built-in image generator, preserving their subjects and compositions as closely as possible. They are reconstructions, not pixel-identical scans. The exact source JPEGs, including signatures, remain in `assets/art` and accessible through Original. The PNGs and full generation prompts (`assets/art/generation.json`) are saved there for reuse; the room uses compressed texture imports. The collection credit is **Studio drawing collections**, as requested by the studio.
+
+Pick up any sheet or choose **Objects → Still life · 5 pencil studies**. The large viewer supports side arrows, keyboard arrows, swipe navigation, wheel/pinch zoom, drag to pan, rotation, Fit, Save PNG, and an Original link. Moving through the collection returns the previous sheet to the desk; closing restores the current one. The book reader also uses side navigation and a larger paper area, with bounded folding and responsive pagination.
+
+Copy `assets/art/*-paper.png` to `Assets/Backbenchers/Art` before running `StudioArtBuilder.Apply` (also called by the immersion builder). This adds dynamic paper meshes without rebaking the room. Run `scripts/verify-art.cjs` alongside the reader and room regression scripts below.
+
+Validation: Unity Web build succeeded with zero errors. Browser checks cover all five scene paper pickups/returns, gallery and object controls, device power/sit/stand, room lights and door, SFX events, book replacement, the 211-page archival PDF, touch page turns, art swipe/pinch, keyboard navigation, PNG links, reduced motion, 320–1280 px layouts, short windows, resizing mid-turn, and native Chrome fullscreen. No page runtime errors occurred in the checked room flows. Physical iOS/Android hardware remains untested.
+
+## Studio tour 1.7 — room, objects, and paper
+
+Small objects lift into a clear inspection space with a full horizontal orbit, vertical tilt, pan, zoom, reset, and optional auto rotation. Drag or use the buttons; Shift-drag pans, scroll/pinch zooms, arrows tilt/rotate, and R resets. Wall artwork has controlled angled views, pan and zoom. Inspection panels size to the available window height, and the camera accounts for the panel’s footprint.
+
+The portrait, jasmine and bird studies return to the original wall grouping, and both original small desk frames are present again. The added aircraft and drone wall frames have been removed at the studio’s request. The Irrawaddy study stays beside the reading shelf. A sailplane drawing follows the plotter’s existing curved paper mesh. `scripts/create-flight-art.py` preserves the drawing source (Pillow; Courier New on macOS).
+
+The physical wall switch and Lights button toggle the room’s illumination. Existing baked surfaces fade to an evening level while device screens retain their independent power and glow. The door swings on its hinge with its handle; the tour button guides the view to the entrance. Original procedural footsteps, switches, door, pickup, return, and paper sounds have an independent SFX mute control. Reduced motion disables camera easing, automatic rotation, and door/light transitions.
+
+The reader has a hinged cover, immediate pointer-driven paper folds, forward/back touch swipes, and animated pickup/return. Choosing another book restores the previous room model and loads only the selected jacket; stale asynchronous selections and PDF loads cannot replace it. The paper stage reserves room for the toolbars and footer during resize and fullscreen changes. Short windows collapse extra controls under Tools. Published books retain their clearly labeled reading companions; the 211-page archival novel remains available in full.
+
+To reproduce: copy the authored scripts from `Source/Backbenchers` to the local project, copy `assets/flight-*.png` to `Assets/Backbenchers/Brand` and `assets/art/*-paper.png` to `Assets/Backbenchers/Art`, run **Upgrade immersive room**, bake the lighting, save, and run `StudioImmersionBuilder.Build`. Run `python3 scripts/build-manifest.py` after a successful build. The commercial environment source remains local.
+
+Browser regression scripts are in `scripts/verify-reader.cjs`, `verify-reader-touch.cjs`, `verify-reader-fit.cjs`, and `verify-room.cjs`. They use Playwright and default to `http://localhost:8765`; set `STUDIO_URL` to check another deployment. `PLAYWRIGHT_MODULE` and `CHROMIUM_EXECUTABLE` optionally select existing installations. Screenshots and results go to `/tmp`. The room script deliberately checks the WebGL fallback; WebGPU is checked separately in native Chrome. Mobile layouts and gestures are emulated; physical mobile devices are not covered.
+
 ## Studio tour 1.6
 
 - Contextual game-style prompts for 144 authored display and everyday objects, plus seven working devices. Hover or aim, then tap/click or press E. Only the object under the pointer is labeled. Structural walls and floor remain scenery.

@@ -1,4 +1,6 @@
 mergeInto(LibraryManager.library, {
+  BBStudioSound: function(kind) { window.dispatchEvent(new CustomEvent('backbenchers-sound', {detail:UTF8ToString(kind)})); },
+  BBStudioRoom: function(lights,door) { window.dispatchEvent(new CustomEvent('backbenchers-room', {detail:{lights:!!lights,door:!!door}})); },
   BBStudioPrompt: function(json) { window.dispatchEvent(new CustomEvent('backbenchers-prompt', {detail:JSON.parse(UTF8ToString(json))})); },
   BBStudioObject: function(json) { window.dispatchEvent(new CustomEvent('backbenchers-inspect', {detail:JSON.parse(UTF8ToString(json))})); },
   BBStudioPerformance: function(fps) {

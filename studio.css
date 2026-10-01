@@ -64,3 +64,16 @@ body:has(dialog[open]) #object-prompt,body:has(dialog[open]) #object-marker{disp
 body:has(#object-prompt:not([hidden])) #explore-hint{visibility:hidden}
 @media(max-width:560px){.tour-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}.quality-label{grid-column:span 2}.tour-tools select{width:100%!important;max-width:none!important}.tour-tools button{width:100%}#walk-button{display:none}}
 @media(max-width:560px) and (pointer:coarse){#object-prompt{bottom:300px}}
+/* Inspection controls stay below a generous, touchable model viewport. */
+#inspect-hint{font:10px/1.5 Arial;color:#c8c8ab;margin:0 0 10px}
+.inspect-actions button[aria-pressed=true],#room-lights[aria-pressed=true]{background:#e7ddbc;color:#243c31}
+#object-inspector{width:min(850px,calc(100% - 32px));padding:14px 20px}
+#inspect-copy{font-size:12px;max-width:760px;margin-bottom:8px}
+#unity-canvas{touch-action:none}.inspecting-object #unity-canvas{cursor:grab}.inspecting-object #unity-canvas:active{cursor:grabbing}
+@media(max-width:1100px){.tour-bar{width:min(720px,100%)}.tour-tools{flex-wrap:wrap;justify-content:center}.tour-tools button{padding-inline:9px}}
+@media(max-width:560px){.tour-tools{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}.quality-label{grid-column:span 2}.tour-tools button{font-size:9px;padding-inline:3px}.viewpoints button{padding-inline:4px}#object-inspector{padding:12px;width:calc(100% - 20px)}#inspect-copy{display:none}#inspect-title{font-size:20px}#inspect-hint{font-size:9px}.inspect-actions{gap:5px}.inspect-actions button,.inspect-actions a{font-size:11px;padding:8px 10px}.inspect-heading .eyebrow{font-size:8px}.inspect-heading button{font-size:11px;padding-inline:10px}}
+@media(max-height:500px){#inspect-hint{display:none}.inspect-actions{gap:4px}.inspect-actions button{font-size:11px;padding:7px}#object-inspector{padding:8px 12px}}
+#object-inspector{max-height:calc(var(--studio-height,100dvh) * .42);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;bottom:max(12px,env(safe-area-inset-bottom))}
+.inspect-actions{position:relative}.inspect-heading{position:sticky;top:-1px;background:#203b32;z-index:2;padding-bottom:3px}
+@media(max-height:700px){#object-inspector{padding:10px 16px}#inspect-copy{display:none}#inspect-title{font-size:20px;margin:5px 0}#inspect-hint{margin-bottom:5px}.inspect-actions button,.inspect-actions a{font-size:11px;padding:7px 10px}.inspect-heading{float:none}.inspect-heading .eyebrow{display:block}}
+@media(max-height:500px){#object-inspector{max-height:45dvh}.inspect-heading{float:right}.inspect-heading .eyebrow{display:none}}

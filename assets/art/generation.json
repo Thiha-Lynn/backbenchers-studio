@@ -1,0 +1,32 @@
+[
+  {
+    "id": "still-life",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same complete still life: glass kettle with black handle, drinking glass, pear, apple and fruit plate. Preserve the hand-lettered title and the original signature/date at the bottom. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
+    "method": "Built-in image_gen image editing; reference photograph retained.",
+    "file": "still-life-paper.png"
+  },
+  {
+    "id": "tiger",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same detailed roaring tiger face, whiskers, fur, teeth and rectangular graphite drawing composition. Preserve the small original signature and date at the bottom. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
+    "method": "Built-in image_gen image editing; reference photograph retained.",
+    "file": "tiger-paper.png"
+  },
+  {
+    "id": "itachi",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same Itachi pencil portrait with red eyes, long dark hair, forehead headband and black collar. Preserve the complete drawn head, all delicate shading and small original signature/date. Straighten the tilted drawing upright. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
+    "method": "Built-in image_gen image editing; reference photograph retained.",
+    "file": "itachi-paper.png"
+  },
+  {
+    "id": "david",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same complete pencil study of the David bust, curly hair, chiseled face, neck and shoulders. Preserve the original fine shading, proportions and bottom signature/date. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
+    "method": "Built-in image_gen image editing; reference photograph retained.",
+    "file": "david-paper.png"
+  },
+  {
+    "id": "portrait",
+    "prompt": "Use case: precise-object-edit. Input image 1 is the edit target. Create a clean reusable portrait-oriented PNG scan of only the existing pencil artwork on a single flat ivory paper rectangle, filling the entire output. The same short-haired woman's pencil portrait, delicate freckles, eyes, hair and shirt. Rotate the drawn portrait upright, head at top and shoulders at bottom. Preserve the same facial likeness, linework, and original signature/date. Remove the surrounding photographed desk, pens, erasers, other books, binder spirals and holes; correct perspective and photographic color cast. Keep the drawing composition and individual pencil marks as close to the supplied original as possible, not a new interpretation. Retain a modest uniform warm-white paper margin on every edge and subtle real paper grain. Flat front-on orthographic scan, evenly lit. No frame, no drop shadow, no environment, no new text, no extra objects. Make a high-resolution portrait image. This will be used as an unframed paper texture in a 3D studio and in a large art viewer.",
+    "method": "Built-in image_gen image editing; reference photograph retained.",
+    "file": "portrait-paper.png"
+  }
+]

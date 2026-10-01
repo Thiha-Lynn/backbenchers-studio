@@ -62,6 +62,7 @@ namespace Backbenchers
             if(paused || viewCamera == null) return;
             UpdatePrompt();
             float dt=Mathf.Min(Time.unscaledDeltaTime,.05f);
+            AnimateInspection(dt);
             // Keep active exploration at display cadence; only hidden/modal views throttle.
             OnDemandRendering.renderFrameInterval=1;
             frameTime+=Time.unscaledDeltaTime;frameSamples++;frameWindow+=Time.unscaledDeltaTime;
@@ -100,7 +101,9 @@ namespace Backbenchers
             if(velocity.sqrMagnitude>.00001f){
                 Vector3 forward=Quaternion.Euler(0,smoothYaw,0)*Vector3.forward;
                 Vector3 right=Quaternion.Euler(0,smoothYaw,0)*Vector3.right;
+                var before=viewCamera.transform.position;
                 body.Move((forward*velocity.y+right*velocity.x)*1.65f*dt);
+                StepSound(Vector3.Distance(before,viewCamera.transform.position));
                 Vector3 p=viewCamera.transform.position;
                 p.x=Mathf.Clamp(p.x,xLimits.x,xLimits.y);p.z=Mathf.Clamp(p.z,zLimits.x,zLimits.y);
                 p.y=Mathf.MoveTowards(p.y,1.55f,dt*1.2f);viewCamera.transform.position=p;
@@ -116,7 +119,7 @@ namespace Backbenchers
 #endif
             seatReported=true;
         }
-        public void SetMotion(string value){reducedMotion=value=="reduced";}
+        public void SetMotion(string value){reducedMotion=value=="reduced";var room=GetComponent<StudioRoom>();if(room)room.reduceMotion=reducedMotion;}
         public void SetMove(string value)
         {
             if(paused||seatedDevice||inspecting)return;
@@ -139,7 +142,7 @@ namespace Backbenchers
             bool instant=index.StartsWith("instant:");
             if(instant)index=index.Substring(8);
             if(!int.TryParse(index,out int i)||i<0||i>=viewpoints.Length)return;
-            inspecting=null;inspectionPosition=null;seatedDevice=null;targetFov=normalFov;movement=velocity=Vector2.zero;destination=viewpoints[i];destinationRotation=Quaternion.Euler(viewAngles[i]);
+            ClearDisplay();inspecting=null;inspectionPosition=null;seatedDevice=null;targetFov=normalFov;movement=velocity=Vector2.zero;destination=viewpoints[i];destinationRotation=Quaternion.Euler(viewAngles[i]);
             if(i==4&&portraitViewport){destination=viewpoints[i]+new Vector3(0,.2f,.55f);destinationRotation=Quaternion.Euler(8,180,0);}
             if(instant){body.enabled=false;viewCamera.transform.SetPositionAndRotation(destination.Value,destinationRotation);body.enabled=true;destination=null;yaw=smoothYaw=destinationRotation.eulerAngles.y;pitch=smoothPitch=destinationRotation.eulerAngles.x;}
 #if UNITY_WEBGL && !UNITY_EDITOR
