@@ -1,0 +1,40 @@
+/* A small, reachable dock keeps the room—not the controls—in view. */
+#tour{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:16}
+.tour-bar{position:relative;display:flex;flex-wrap:nowrap;gap:8px;width:max-content;max-width:100%;padding:5px 7px;border-radius:18px;background:#223c33dd;box-shadow:0 6px 24px #14251e28}
+.viewpoints{width:auto;display:flex;flex:1;gap:3px;min-width:0}.viewpoints button{flex:1;min-width:44px;min-height:44px;padding:10px 15px;font-size:11px}.viewpoints button span{display:inline;margin-left:5px}
+#tour-menu{display:flex;align-items:center;justify-content:center;gap:9px;flex-shrink:0;min-height:44px;padding:10px 16px;border:1px solid #eee5d244;border-radius:12px;background:#eee5d210;color:#f3ead7;font-size:12px}
+#tour-menu[aria-expanded=true]{background:#eadfc9;color:#243c31}
+#room-menu{position:absolute;right:0;bottom:calc(100% + 10px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:330px;max-width:calc(100vw - 24px);max-height:calc(var(--studio-height,100dvh) - 95px);overflow-y:auto;overscroll-behavior:contain;padding:12px;background:#213b33f5;border:1px solid #e7d5b84d;border-radius:18px;box-shadow:0 14px 50px #14251e66;backdrop-filter:blur(18px)}
+.room-menu-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px;font:18px Georgia,serif;color:#f1e5cc;padding-left:4px;margin-bottom:4px}
+#room-menu .room-menu-heading button{width:44px;flex-shrink:0;font-size:22px;background:none}
+#room-menu button,#room-menu select{min-height:46px;font:11px Arial;padding:10px 6px;white-space:normal;width:100%;border-radius:9px;background:#ffffff09;color:#eee5d2}#room-menu button:hover{background:#ffffff18}#room-menu select{width:100%!important;max-width:none!important}#room-menu .quality-label{grid-column:span 1}#room-menu button[aria-pressed=true]{background:#ebdfc4;color:#233c31}
+#fps{display:none;bottom:72px}.show-performance #fps{display:block}
+#explore-hint{left:8px;right:auto;bottom:78px;max-width:none;margin:0;opacity:0;transition:opacity .5s;pointer-events:none}.tour-onboarding #explore-hint{opacity:1}
+#object-prompt{bottom:85px;min-height:48px;padding:9px 13px;gap:10px;border-radius:14px;background:#203b32db;backdrop-filter:blur(10px)}
+#look-cue,#touch-reticle{display:none}
+#move-stick{position:fixed;left:max(26px,env(safe-area-inset-left));bottom:115px;top:auto;width:104px;height:104px;opacity:.32;background:#233c332b;border:1px solid #fff5dd70;box-shadow:inset 0 0 0 13px #eadcc313;backdrop-filter:blur(2px);transition:opacity .18s}
+#stick-knob{left:31px;top:31px;width:40px;height:40px;border:1px solid #fff5dda0;background:#eee2c8bb;box-shadow:0 2px 12px #172c3033}
+.stick-caption{bottom:-21px;font:9px Arial;letter-spacing:1px;text-shadow:0 1px 3px #13251d}
+.walking-touch #move-stick,.tour-onboarding #move-stick{opacity:.85}.walking-touch .stick-caption{display:none}
+.touch-tour #move-stick{display:block}.touch-tour #walk-button{display:none}
+.touch-tour #touch-reticle{display:block;position:fixed;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:#fff5dc80;box-shadow:0 0 0 1px #243c3144;pointer-events:none}
+.touch-tour #object-prompt{left:auto;right:max(18px,env(safe-area-inset-right));bottom:105px;transform:none;max-width:min(235px,52vw);min-height:52px}.touch-tour #object-prompt kbd{display:none}.touch-tour #prompt-action{font-size:8px;letter-spacing:.07em}.touch-tour #prompt-name{font-size:12px}.touch-tour #object-marker{display:none}
+.touch-tour #explore-hint{display:none}.touch-tour.tour-onboarding #look-cue{display:block;position:fixed;right:24px;bottom:190px;max-width:120px;font:11px/1.6 Arial;color:#fff4dc;text-shadow:0 1px 5px #102019;background:#203b3288;padding:8px 12px;border-radius:20px;pointer-events:none}
+.walking-touch #object-prompt,.room-menu-open #object-prompt,.room-menu-open #move-stick,.room-menu-open #look-cue,.room-menu-open #touch-reticle{visibility:hidden}
+body.quiet-tour.exploring header{display:none}body.quiet-tour #explore-hint{display:none}
+body:has(dialog[open]) #tour,body:has(#device-card:not([hidden])) #move-stick,.sitting-down #tour{visibility:hidden}
+.inspecting-object #look-cue,.inspecting-object #touch-reticle{display:none!important}
+@media(max-width:800px){
+ .tour-bar{width:min(560px,100%);gap:5px}.viewpoints{width:auto}.viewpoints button{padding:8px 5px;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.viewpoints button span{display:block;margin:0;font-size:10px}
+ #tour-menu{padding:8px 11px;flex-direction:column;gap:3px;font-size:9px;min-width:61px}#tour-menu>span:first-child{font-size:15px}
+ body.exploring header{top:max(10px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));background:#23352b99;padding:1px 12px;gap:8px;box-shadow:0 3px 18px #20352912}
+ body.exploring header .logo-crop{height:38px;width:115px}body.exploring header .logo-crop img{width:160px;height:160px;left:-20px;top:-59px}body.exploring nav{gap:13px}body.exploring nav button{font-size:9px;min-height:44px}body.exploring nav a{display:none}
+ #device-card{max-height:calc(var(--studio-height,100dvh) - 100px);overflow-y:auto}
+}
+@media(max-width:380px){.tour-bar{padding:4px;gap:3px}.viewpoints{gap:0}.viewpoints button{min-width:44px;padding-inline:2px}.viewpoints button span{font-size:9px}#tour-menu{min-width:55px;padding-inline:5px}body.exploring header .logo-crop{width:115px}body.exploring header nav [data-panel="projects"]{display:none}body.exploring nav{gap:9px}body.exploring nav button{font-size:8px}}
+@media(max-height:500px) and (orientation:landscape){
+ .tour-bar{width:max-content}.viewpoints button{display:block;padding:8px 10px}.viewpoints button span{display:inline;margin-left:4px}#tour-menu{flex-direction:row;font-size:11px}.touch-tour #object-prompt{bottom:85px;right:20px}#move-stick{bottom:92px;left:24px}.touch-tour.tour-onboarding #look-cue{bottom:160px}body.exploring header{right:auto;height:42px}body.exploring header nav{display:none}#room-menu{width:380px;grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(prefers-reduced-motion:reduce){#move-stick,#explore-hint{transition:none}}
+
+@media(max-height:500px) and (orientation:landscape){body.exploring header .logo-crop{height:38px;width:115px}body.exploring header .logo-crop img{width:160px;height:160px;left:-20px;top:-59px}}

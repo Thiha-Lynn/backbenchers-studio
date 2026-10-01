@@ -22,7 +22,7 @@ jobs:
       - name: Assemble site
         run: |
           mkdir _site
-          cp index.html studio.css studio.js _site/
+          cp index.html studio.css tour.css studio.js _site/
           cp -R assets unity desktop _site/
       - uses: actions/upload-pages-artifact@v4
         with:

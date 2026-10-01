@@ -44,6 +44,7 @@ namespace Backbenchers {
     if(item.topic.StartsWith("art:")){ReportInspection(item);return;}
     ClearDisplay();
     if(!inspectionPosition.HasValue){inspectionPosition=viewCamera.transform.position;inspectionRotation=viewCamera.transform.rotation;}
+    EnsureMovementController();
     inspecting=item;movement=velocity=Vector2.zero;paused=false;body.enabled=false;
     var rs=item.GetComponentsInChildren<Renderer>();var bounds=new Bounds(item.transform.position,Vector3.zero);if(rs.Length>0){bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);}
     var initialDirection=(inspectionPosition.Value-bounds.center).normalized;

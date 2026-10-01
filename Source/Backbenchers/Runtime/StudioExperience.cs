@@ -38,11 +38,21 @@ namespace Backbenchers
         [DllImport("__Internal")] private static extern void BBStudioDevice(string id,int power,int page);
         [DllImport("__Internal")] private static extern void BBStudioInspect(string topic);
 #endif
+        // Browser callbacks can outlive the cached native controller reference.
+        // Resolve it at the movement boundary before disabling or moving the body.
+        void EnsureMovementController()
+        {
+            if(body)return;
+            body=viewCamera.GetComponent<CharacterController>();
+            if(body)return;
+            body=viewCamera.gameObject.AddComponent<CharacterController>();
+            body.height=1.5f;body.radius=.19f;body.center=new Vector3(0,-.65f,0);body.stepOffset=.12f;
+        }
         void Start()
         {
             Application.targetFrameRate = -1;
             QualitySettings.vSyncCount = 0;
-            body = viewCamera.GetComponent<CharacterController>();
+            EnsureMovementController();
             devices=UnityEngine.Object.FindObjectsByType<StudioDevice>(FindObjectsSortMode.None);
             yaw = viewCamera.transform.eulerAngles.y;
             pitch = viewCamera.transform.eulerAngles.x;
@@ -60,6 +70,7 @@ namespace Backbenchers
         void Update()
         {
             if(paused || viewCamera == null) return;
+            EnsureMovementController();
             UpdatePrompt();
             float dt=Mathf.Min(Time.unscaledDeltaTime,.05f);
             AnimateInspection(dt);
