@@ -68,3 +68,5 @@
 .reader-stage{align-items:center;justify-content:center}.turning-cover{contain:layout paint;box-shadow:4px 10px 24px #0003}
 
 #book-reader[lang=my] .page-copy{font-family:'Myanmar Sangam MN','Noto Serif Myanmar','Myanmar Text',serif}#book-reader[lang=my] .page-copy p{line-height:1.9}#book-reader[lang=my] .page-running{letter-spacing:0;line-height:1.8!important}
+/* Give phone readers more paper while keeping thumb controls outside the text. */
+@media(max-width:480px){.reader-stage,.reader-focused .reader-stage{padding-inline:46px}.paper-nav{min-width:44px;width:44px}.paper-prev{left:0}.paper-next{right:0}.page-copy{left:17px;right:17px}.page-running{left:17px;right:17px}.reader-tools button{min-height:44px}}
