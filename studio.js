@@ -2,7 +2,7 @@ import {createPhone,isPhone} from './desktop/phone.js?v=13';
 import {createArtViewer} from './desktop/art.js?v=13';
 import {createFoley} from './desktop/foley.js?v=13';
 import {createLofi} from './desktop/lofi.js?v=13';
-import {createReader,studioJournal} from './desktop/reader.js?v=13';
+import {createReader,studioJournal} from './desktop/reader.js?v=15';
 import {createDesktop} from './desktop/desktop.js?v=13';
 const $=id=>document.getElementById(id), canvas=$('unity-canvas');
 let instance=null,loadingPromise=null,inStudio=false,cancelled=false,keys=new Set(),drag=null,currentPanel=null,lastFocus=null,renderer='';
@@ -148,7 +148,7 @@ $('art-table-visit').onclick=()=>{if(currentPanel)currentPanel.close();leaveInsp
 for(const button of document.querySelectorAll('[data-art]'))button.onclick=()=>openArt(button.dataset.art);
 const reader=createReader({paper:()=>foley.play('paper'),onImport:book=>openBook(book)});
 let libraryLoaded=false,bookCatalog=null,bookRequest=0,selectedBookFilter='all';
-async function catalog(){if(bookCatalog)return bookCatalog;const response=await fetch('assets/books/catalog.json?v=13');if(!response.ok)throw Error('Could not load books');return bookCatalog=await response.json();}
+async function catalog(){if(bookCatalog)return bookCatalog;const response=await fetch('assets/books/catalog.json?v=15');if(!response.ok)throw Error('Could not load books');return bookCatalog=await response.json();}
 async function openBook(id){
  const request=++bookRequest;
  try{const book=typeof id==='object'?id:(await catalog()).find(b=>b.id===id);if(!book||request!==bookRequest)return;
@@ -216,3 +216,7 @@ new ResizeObserver(fitViewport).observe($('object-inspector'));
 window.visualViewport?.addEventListener('resize',fitViewport);addEventListener('resize',fitViewport);document.addEventListener('fullscreenchange',fitViewport);fitViewport();
 
 for(const button of document.querySelectorAll('[data-book-filter]'))button.onclick=()=>{const filter=button.dataset.bookFilter;selectedBookFilter=filter;for(const b of document.querySelectorAll('[data-book-filter]'))b.setAttribute('aria-pressed',String(b===button));for(const card of document.querySelectorAll('#library-grid .book-card'))card.hidden=filter!=='all'&&card.dataset.collection!==filter;};
+
+// Shareable reading links work without loading the 3D engine.
+const linkedBook=new URLSearchParams(location.search).get("book");
+if(linkedBook)openBook(linkedBook);

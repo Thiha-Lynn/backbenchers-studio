@@ -118,7 +118,7 @@ export function createReader({paper,onImport}){
  }
  function open(value){
   setTools(!compact.matches);
-  epoch++;transition?.cancel();transition=null;closing=false;stage.querySelectorAll('.turning-cover').forEach(e=>e.remove());disposeEngine();paintEpoch++;for(const task of renderTasks)task.cancel();renderTasks.clear();turning=false;if(book?.pdfDoc&&book.pdfDoc!==value.pdfDoc)book.pdfDoc.loadingTask.destroy().catch(()=>{});book=value;pdfText.clear();zoom=1;stage.style.touchAction="pan-y";
+  epoch++;transition?.cancel();transition=null;closing=false;stage.querySelectorAll('.turning-cover').forEach(e=>e.remove());disposeEngine();paintEpoch++;for(const task of renderTasks)task.cancel();renderTasks.clear();turning=false;if(book?.pdfDoc&&book.pdfDoc!==value.pdfDoc)book.pdfDoc.loadingTask.destroy().catch(()=>{});book=value;dialog.lang=value.language||"en";pdfText.clear();zoom=1;stage.style.touchAction="pan-y";
   chapters=value.pages||(value.pdfUrl?[{title:value.title,body:'Opening the original novel from the studio archive…'}]:[
    {title:value.title,body:`${value.author}\n\n${value.category}\n\n${value.note}\n\nThis is a reading companion. The published book’s full text is not included.`,source:value.source},
    {title:'In the margins',body:'Keep a thought here while you browse. These notes stay in this browser.',notes:true}

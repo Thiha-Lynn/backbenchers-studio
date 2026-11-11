@@ -66,3 +66,5 @@
 /* Cover and spread share a single centered stage, including the opening frame. */
 #reader-cover[hidden],#reader-spread[hidden]{display:none!important}
 .reader-stage{align-items:center;justify-content:center}.turning-cover{contain:layout paint;box-shadow:4px 10px 24px #0003}
+
+#book-reader[lang=my] .page-copy{font-family:'Myanmar Sangam MN','Noto Serif Myanmar','Myanmar Text',serif}#book-reader[lang=my] .page-copy p{line-height:1.9}#book-reader[lang=my] .page-running{letter-spacing:0;line-height:1.8!important}
